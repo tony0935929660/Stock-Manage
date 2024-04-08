@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-04-08T10:56:06.878Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36" etag="ZH7Ofpj6iu3YLrkeo7mx" version="24.2.2" type="github">
+<mxfile host="app.diagrams.net" modified="2024-04-08T10:57:15.327Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36" etag="lpyS1wbFcnOm0jJCm0mQ" version="24.2.2" type="github">
   <diagram name="Page-1" id="9f46799a-70d6-7492-0946-bef42562c5a5">
     <mxGraphModel dx="1095" dy="624" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="none" math="0" shadow="0">
       <root>
@@ -244,8 +244,8 @@
             <mxRectangle width="150" height="30" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="qv9D6SfVHLYkdDwsbPv5-43" value="stock_price" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;" vertex="1" parent="1">
-          <mxGeometry x="800" y="260" width="180" height="360" as="geometry" />
+        <mxCell id="qv9D6SfVHLYkdDwsbPv5-43" value="stock_daily" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;" vertex="1" parent="1">
+          <mxGeometry x="790" y="260" width="180" height="360" as="geometry" />
         </mxCell>
         <mxCell id="qv9D6SfVHLYkdDwsbPv5-44" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" vertex="1" parent="qv9D6SfVHLYkdDwsbPv5-43">
           <mxGeometry y="30" width="180" height="30" as="geometry" />
