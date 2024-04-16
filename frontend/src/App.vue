@@ -3,7 +3,7 @@
     <v-app-bar>
       <v-toolbar-title>Stock Manage</v-toolbar-title>
       <v-spacer />
-      <template v-slot:append>
+      <!-- <template v-slot:append>
         <v-list>
           <v-list-item>
             <v-avatar
@@ -32,21 +32,21 @@
             </v-menu>
           </v-list-item>
         </v-list>
-      </template>
+      </template> -->
     </v-app-bar>
     <v-navigation-drawer
       floating
       permanent
     >
-      <v-list nav>
-        <v-list-item prepend-icon="mdi-home" title="Home" value="home" to="/home" />
-        <v-list-item prepend-icon="mdi-currency-usd" title="Holdings" to="/holdings" />
+      <v-list nav class="my-3">
+        <v-list-item prepend-icon="mdi-home" title="Home" to="/home" />
+        <!-- <v-list-item prepend-icon="mdi-currency-usd" title="Holdings" to="/holdings" />
         <v-list-item prepend-icon="mdi-pencil" title="Record" to="/record" />
         <v-list-item prepend-icon="mdi-history" title="History" to="/history" />
-        <v-list-item prepend-icon="mdi-cog" title="System Setup" to="/system_setup" />
+        <v-list-item prepend-icon="mdi-cog" title="System Setup" to="/system-setup" /> -->
       </v-list>
     </v-navigation-drawer>
-    <v-main>
+    <v-main class="mx-8 my-8">
       <router-view />
     </v-main>
   </v-app>
