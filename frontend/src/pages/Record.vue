@@ -4,9 +4,9 @@
             <v-text-field label="Stock ID" />
             <v-text-field label="Amount" />
             <v-text-field label="Price" />
-            <v-card-action class="d-flex justify-end">
+            <div class="d-flex justify-end">
                 <v-btn size="large" variant="tonal">Submit</v-btn>
-            </v-card-action>
+            </div>
         </v-card>
         <v-card>
 

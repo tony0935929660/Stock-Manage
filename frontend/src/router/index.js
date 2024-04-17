@@ -9,7 +9,7 @@
 import { createRouter, createWebHistory } from 'vue-router/auto'
 
 const routes = [
-  // { path: '/home', component: Home },
+  // { path: '/', component: Home },
   // { path: '/record', component: Record },
   // { path: '/holdings', component: Holdings },
   // { path: '/history', component: History },
