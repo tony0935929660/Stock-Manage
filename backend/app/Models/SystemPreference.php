@@ -16,5 +16,5 @@ class SystemPreference extends Model
         'is_frontend_cached',
         'created_by',
         'updated_by'
-    ]
+    ];
 }
