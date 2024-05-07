@@ -12,7 +12,7 @@ class UserStock extends Model
     protected $fillable = [
         'user_id',
         'stock_id',
-        'volume',
+        'amount',
         'buy_date',
         'buy_price',
         'buy_fee_discount',

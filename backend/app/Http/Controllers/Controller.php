@@ -13,6 +13,11 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+    }
+
     protected function createApiResponse($rawContent = null, $status = Response::HTTP_OK, $headers = array()): Response
     {
         $response = new Response($rawContent, $status, $headers);
