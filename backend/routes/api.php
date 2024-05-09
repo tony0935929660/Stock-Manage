@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserStockController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/stock', [StockController::class, 'index']);
+Route::post('/user-stock', [UserStockController::class, 'buy']);
 
 Route::group([
     'prefix' => 'auth'

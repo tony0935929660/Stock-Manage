@@ -1,12 +1,15 @@
 <template>
     <v-row>
         <v-card class="px-4 py-5" style="width: 40%;">
-            <v-select filled label="Stock ID" :items="options.stock" item-title="name" item-value="id"/>
-            <v-text-field label="Amount" />
-            <v-text-field label="Price" />
-            <div class="d-flex justify-end">
-                <v-btn size="large" variant="tonal">Submit</v-btn>
-            </div>
+            <v-card-title>Record</v-card-title>
+            <v-date-input label="Date" v-model="form.buy_date" prepend-icon="" />
+            <v-select label="Stock ID" v-model="form.stock_id" :items="options.stock" item-title="name" item-value="id" filled/>
+            <v-text-field label="Price" v-model="form.buy_price" />
+            <v-text-field label="Amount" v-model="form.amount" />
+            <v-card-actions>
+                {{ form }}
+                <v-btn size="large" variant="tonal" @click="submit">Submit</v-btn>
+            </v-card-actions>
         </v-card>
         <v-card>
 
@@ -24,6 +27,7 @@ export default {
         getStockList()
     })
 
+    const form = ref({})
     const options = ref({
         'stock': []
     });
@@ -32,11 +36,15 @@ export default {
         const response = await API('get', '/stock');
         options.value.stock = response;
     }
-
-    console.log(options.value);
+    const submit = async () => {
+        const response = await API('post', '/user-stock', form.value);
+        console.log(response);
+    }
 
     return {
-        options
+        form,
+        options,
+        submit
     };
   }
 }

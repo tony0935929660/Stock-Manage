@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\CreatedUpdatedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class UserStock extends Model
 {
-    use HasFactory;
+    use HasFactory, CreatedUpdatedBy;
 
     protected $fillable = [
         'user_id',
@@ -24,5 +25,9 @@ class UserStock extends Model
         'total_profit',
         'created_by',
         'updated_by'
+    ];
+
+    protected $casts = [
+        'buy_date' => 'datetime:Y-m-d',
     ];
 }
