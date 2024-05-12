@@ -26,6 +26,8 @@ class UserStockController extends Controller
         // TODO auto convert datetime to date
         $params['buy_date'] = date('Y-m-d', strtotime($params['buy_date']));
 
+
+        // TODO calculate function can define in model
         $discount = 0.28;
         $fee = $params['buy_price'] * $params['amount'] * 0.1425 * $discount;
         $total = $params['buy_price'] * $params['amount'] + $fee;
@@ -38,5 +40,11 @@ class UserStockController extends Controller
         $userStock = UserStock::create($params);
 
         return $this->createApiResponse(['id' => $userStock->id]);
+    }
+
+    public function list(): Response
+    {
+        $userStocks = UserStock::get();
+        return $this->createApiResponse($userStocks);
     }
 }
