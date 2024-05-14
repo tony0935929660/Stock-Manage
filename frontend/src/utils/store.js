@@ -26,6 +26,9 @@ export default createStore({
     },
     getters: {
         token (state) {
+            if (!state.token) {
+                return null;
+            }
             return `Bearer ${state.token}`;
         },
         renewTokenTime (state) {

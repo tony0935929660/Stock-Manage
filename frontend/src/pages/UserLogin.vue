@@ -34,7 +34,7 @@ async function refreshToken() {
 
 async function login() {
     try {
-        console.log('logining...')
+        console.log('logging...')
         const response = await API('post', '/auth/login', form.value)
         store.dispatch("updateToken", response)
         router.push('/')
