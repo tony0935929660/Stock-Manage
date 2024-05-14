@@ -2,15 +2,15 @@
     <v-table>
         <thead>
             <tr>
-                <th>
-                    Date
+                <th v-for="column in columns" v-bind:key="column.key">
+                    {{ column.header }}
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>
-                    123
+            <tr v-for="datum in data" v-bind:key="datum.id">
+                <td v-for="column in columns" v-bind:key="column.key">
+                    {{ datum[column.key] }}
                 </td>
             </tr>
         </tbody>
@@ -28,10 +28,31 @@ export default {
     })
 
     const data = ref();
-    const columns = ref(['Date', 'Stock', 'Price', 'Amount', 'Total']);
+    const columns = ref([
+        {
+            "key": "buy_date",
+            "header": "Date"
+        },
+        {
+            "key": "stock_id",
+            "header": "Stock"
+        },
+        {
+            "key": "buy_price",
+            "header": "Price"
+        },
+        {
+            "key": "amount",
+            "header": "Amount"
+        },
+        {
+            "key": "total_cost",
+            "header": "Total"
+        }
+    ]);
     
     const getList = async () => {
-        data.value = await API('get', '/user-stock');
+        data.value = await API('get', '/user-stock/history');
     }
 
     return {

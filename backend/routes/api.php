@@ -23,7 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/stock', [StockController::class, 'index']);
 Route::post('/user-stock', [UserStockController::class, 'buy']);
-Route::get('/user-stock', [UserStockController::class, 'list']);
+Route::get('/user-stock/history', [UserStockController::class, 'historyList']);
+Route::get('/user-stock/holding', [UserStockController::class, 'holdingList']);
 
 Route::group([
     'prefix' => 'auth'

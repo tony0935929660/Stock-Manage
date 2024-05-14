@@ -42,9 +42,17 @@ class UserStockController extends Controller
         return $this->createApiResponse(['id' => $userStock->id]);
     }
 
-    public function list(): Response
+    public function historyList(): Response
     {
-        $userStocks = UserStock::get();
+        $userStocks = UserStock::where('user_id', auth()->user()->id)->get();
+        return $this->createApiResponse($userStocks);
+    }
+
+    public function holdingList(): Response
+    {
+        $userStocks = UserStock::selectRaw('stock_id, sum(total_cost) as total_cost, sum(amount) as amount')
+            ->groupBy('stock_id')
+            ->get();
         return $this->createApiResponse($userStocks);
     }
 }
