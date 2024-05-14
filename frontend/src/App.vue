@@ -6,7 +6,6 @@
             <router-view />
         </v-main>
     </v-app>
-    {{ store }}
   </div>
 </template>
 

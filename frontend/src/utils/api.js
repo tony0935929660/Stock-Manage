@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from "axios"
+import store from "@/utils/store"
 
-const token = null;
 const domain = "http://127.0.0.1:8000";
 const baseAPI = axios.create({
     baseURL: `${domain}/api`,
@@ -10,15 +10,9 @@ const baseAPI = axios.create({
     },
 });
 
-function setToken(newToken) {
-    const token = newToken;
-
-    return token;
-}
-
 baseAPI.interceptors.request.use(
     function (config) {
-        config.headers['Authorization'] = token;
+        config.headers['Authorization'] = store.getters.token;
         return config;
     }
   );

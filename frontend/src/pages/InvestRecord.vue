@@ -1,19 +1,14 @@
 <template>
-    <v-row>
-        <v-card class="px-4 py-5" style="width: 40%;">
-            <v-card-title>Record</v-card-title>
-            <v-date-input label="Date" v-model="form.buy_date" prepend-icon="" />
-            <v-select label="Stock ID" v-model="form.stock_id" :items="options.stock" item-title="name" item-value="id" filled/>
-            <v-text-field label="Price" v-model="form.buy_price" />
-            <v-text-field label="Amount" v-model="form.amount" />
-            <v-card-actions>
-                <v-btn size="large" variant="tonal" @click="submit">Submit</v-btn>
-            </v-card-actions>
-        </v-card>
-        <v-card>
-
-        </v-card>
-    </v-row>
+    <v-card class="px-4 py-5">
+        <v-card-title>Record</v-card-title>
+        <v-date-input label="Date" v-model="form.buy_date" prepend-icon="" />
+        <v-select label="Stock ID" v-model="form.stock_id" :items="options.stock" item-title="name" item-value="id" filled/>
+        <v-text-field label="Price" v-model="form.buy_price" />
+        <v-text-field label="Amount" v-model="form.amount" />
+        <v-card-actions>
+            <v-btn size="large" variant="tonal" @click="submit">Submit</v-btn>
+        </v-card-actions>
+    </v-card>
 </template>
 
 <script setup>

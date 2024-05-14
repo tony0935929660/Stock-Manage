@@ -1,9 +1,9 @@
-import { createStore } from 'vuex';
+import { createStore } from 'vuex'
 
 export default createStore({
     state: {
       token: null,
-      user: {},
+      user: null,
       tokenExpiresIn: null
     },
     mutations: {
@@ -18,7 +18,7 @@ export default createStore({
       }
     },
     actions: {
-      login (store, response) {
+      login(store, response) {
         store.commit('setToken', response.access_token);
         store.commit('setUser', response.user);
         store.commit('setTokenExpiresIn', response.expires_in);
