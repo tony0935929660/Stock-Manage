@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <AppWithHeaderAndSidebar v-if="currentRouteName != 'login'" />
-    <v-app>
-        <v-main>
-            <router-view />
-        </v-main>
-    </v-app>
-  </div>
+	<div>
+		<AppWithHeaderAndSidebar v-if="currentRouteName != 'login'" />
+		<v-app>
+			<v-main>
+				<router-view />
+			</v-main>
+		</v-app>
+	</div>
 </template>
 
 <script setup>

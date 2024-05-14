@@ -15,7 +15,7 @@ baseAPI.interceptors.request.use(
         config.headers['Authorization'] = store.getters.token;
         return config;
     }
-  );
+);
   
 
 async function API(method, url, params) {
