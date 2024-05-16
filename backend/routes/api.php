@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserStockController;
+use App\Http\Controllers\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +22,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/stock', [StockController::class, 'index']);
-Route::post('/user-stock', [UserStockController::class, 'buy']);
-Route::get('/user-stock/history', [UserStockController::class, 'historyList']);
-Route::get('/user-stock/holding', [UserStockController::class, 'holdingList']);
+Route::get('/stock/{stock}/recent', [StockController::class, 'getRecentInfo']);
+
+Route::post('/user-stock', [TransactionController::class, 'buy']);
+Route::get('/user-stock/history', [TransactionController::class, 'historyList']);
+Route::get('/user-stock/holding', [TransactionController::class, 'holdingList']);
 
 Route::group([
     'prefix' => 'auth'

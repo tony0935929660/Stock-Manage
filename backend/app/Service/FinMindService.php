@@ -2,27 +2,26 @@
 
 namespace App\Service;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
 class FinMindService
 {
     protected $url = 'https://api.finmindtrade.com/api/v4/data';
 
-    public function getStockSummary()
+    public function getStockSummary(): array
     {
         return $this->callApi('TaiwanStockInfo');
     }
 
-    public function getStockPriceByDate(string $dataId, string $date)
+    public function getStockPriceByDateRange(string $dataId, string $startDate, ?string $endDate = null): array
     {
-        $data = $this->callApi('TaiwanStockPrice', $dataId, $date, $date);
-        return $data[0];
+        return $this->callApi('TaiwanStockPrice', $dataId, $startDate, $endDate);
     }
 
-    protected function callApi(string $dataset, ?string $dataId = null, ?string $startDate = null, ?string $endDate = null)
+    protected function callApi(string $dataset, ?string $dataId = null, ?string $startDate = null, ?string $endDate = null): array
     {
         $token = env('FINMIND_TOKEN');
-        $dataset = 'TaiwanStockInfo';
 
         $query = [
             'dataset' => $dataset,

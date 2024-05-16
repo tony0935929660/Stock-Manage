@@ -32,7 +32,7 @@ async function API(method, url, params) {
 }
 
 async function GET(url, params) {
-    const response = await baseAPI.get(url, params);
+    const response = await baseAPI.get(url, {'params': params});
     return response.data;
 }
 

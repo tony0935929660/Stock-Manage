@@ -2,11 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Stock;
 use Illuminate\Console\Command;
 use App\Service\FinMindService;
 
-class GetStockSummary extends Command
+class TestFunction extends Command
 {
     /**
      * @var FinMindService
@@ -18,14 +17,14 @@ class GetStockSummary extends Command
      *
      * @var string
      */
-    protected $signature = 'stock:summary';
+    protected $signature = 'test:function';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Get stock summary.';
+    protected $description = 'Test function';
 
     /**
      * Create a new command instance.
@@ -46,23 +45,9 @@ class GetStockSummary extends Command
      */
     public function handle()
     {
-        $data = $this->finMindService->getStockSummary();
+        $data = $this->finMindService->getStockPriceByDate('2330', '2024-05-14');
         
-        foreach ($data as $datum) {
-            $stock = Stock::findByCode($datum['stock_id']);
-            if ($stock) {
-                continue;
-            }
-
-            Stock::create([
-                'code' => $datum['stock_id'],
-                'name' => $datum['stock_name'],
-                'industry_category' => $datum['industry_category'],
-                'type' => $datum['type'],
-                'created_by' => 'System-GetStockSummary',
-                'updated_by' => 'system-GetStockSummary'
-            ]);
-        }
+        dump($data);
 
         return 0;
     }

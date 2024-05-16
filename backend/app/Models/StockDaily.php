@@ -10,8 +10,8 @@ class StockDaily extends Model
     use HasFactory;
 
     protected $fillable = [
-        "date",
         "stock_id",
+        "date",
         "trading_volume",
         "trading_money",
         "open",
@@ -21,4 +21,9 @@ class StockDaily extends Model
         "spread",
         "trading_turnover"
     ];
+
+    public function stock()
+    {
+        return $this->belongsTo(Stock::class);
+    }
 }

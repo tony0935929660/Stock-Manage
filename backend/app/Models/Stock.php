@@ -10,12 +10,21 @@ class Stock extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id',
+        'code',
         'name',
         'industry_category',
-        'price',
         'type',
         'created_by',
         'updated_by'
     ];
+
+    static public function findByCode(string $code): ?Stock
+    {
+        return Stock::where('code', $code)->first();
+    }
+
+    public function stockDailies()
+    {
+        return $this->hasMany(StockDaily::class);
+    }
 }

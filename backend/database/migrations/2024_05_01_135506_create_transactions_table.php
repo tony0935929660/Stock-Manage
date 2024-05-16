@@ -19,12 +19,12 @@ class CreateTransactionsTable extends Migration
             $table->foreignId('stock_id')->constrained('stocks')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('related_transaction_id')->constrained('transactions')->onUpdate('cascade')->onDelete('cascade')->nullable();
             $table->string('type');
-            $table->integer('quantity');
+            $table->bigInteger('quantity');
             $table->date('date');
             $table->float('price', 8, 2);
             $table->float('fee_discount', 8, 2);
             $table->integer('tax')->nullable();
-            $table->integer('total');
+            $table->bigInteger('total');
             $table->string('created_by');
             $table->string('updated_by');
             $table->timestamps();

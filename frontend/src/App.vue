@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<AppWithHeaderAndSidebar v-if="currentRouteName != 'login'" />
-		<v-app>
+		<v-app v-else>
 			<v-main>
 				<router-view />
 			</v-main>

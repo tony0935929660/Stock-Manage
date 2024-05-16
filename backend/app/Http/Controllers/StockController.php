@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Stock;
 use App\Models\StockDaily;
-use App\Models\UserStock;
 use App\Service\FinMindService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -29,21 +28,36 @@ class StockController extends Controller
         return $this->createApiResponse($stocks);
     }
 
-    // public function getTodayInfo(Stock $stock): Response
-    // {
-    //     $todayInfo = UserStock::where('stock_id', $stock->id)
-    //     ->whereDate('date', Carbon::today())
-    //     ->get();
+    public function getRecentInfo(Stock $stock, Request $request): Response
+    {
+        $info = StockDaily::where('stock_id', $stock->id)
+        ->whereDate('date', $request->input('date'))
+        ->first();
 
-    //     if (!$todayInfo) {
-    //         $data = $this->finMindService->getStockPriceByDate($stock->id, Carbon::today());
-    //         $todayInfo = StockDaily::create([
-    //             'stock_id' => $stock->id,
-    //             'date' => $data['date'],
-    //             'vol'
-    //         ]);
-    //     }
+        if (!$info) {
+            $prices = $this->finMindService->getStockPriceByDateRange($stock->code, $request->input('date'), $request->input('date'));
 
-    //     return $this->createApiResponse($todayInfo);
-    // }
+            $data = $prices[0];
+
+            $info = StockDaily::with('stock')->create([
+                'stock_id' => $stock->id,
+                'date' => $request->input('date'),
+                "trading_volume" => $data['Trading_Volume'],
+                "trading_money" => $data['Trading_money'],
+                "open" => $data['open'],
+                "max" => $data['max'],
+                "min" => $data['min'],
+                "close" => $data['close'],
+                "spread" => $data['spread'],
+                "trading_turnover" => $data['Trading_turnover']
+            ]);
+        }
+
+        $info = StockDaily::where('stock_id', $stock->id)
+        ->orderBy('date', 'desc')
+        ->limit(5)
+        ->get();
+
+        return $this->createApiResponse($info);
+    }
 }
