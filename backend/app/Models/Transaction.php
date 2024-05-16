@@ -6,28 +6,26 @@ use App\Traits\CreatedUpdatedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserStock extends Model
+class Transaction extends Model
 {
     use HasFactory, CreatedUpdatedBy;
 
     protected $fillable = [
         'user_id',
         'stock_id',
-        'amount',
-        'buy_date',
-        'buy_price',
-        'buy_fee_discount',
-        'total_cost',
-        'sell_date',
-        'sell_price',
-        'sell_fee_discount',
+        'related_transaction_id',
+        'type',
+        'quantity',
+        'date',
+        'price',
+        'fee_discount',
         'tax',
-        'total_profit',
+        'total',
         'created_by',
         'updated_by'
     ];
 
     protected $casts = [
-        'buy_date' => 'datetime:Y-m-d',
+        'date' => 'datetime:Y-m-d',
     ];
 }

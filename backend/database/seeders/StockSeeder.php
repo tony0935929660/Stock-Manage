@@ -20,8 +20,8 @@ class StockSeeder extends Seeder
             'name' => 'TSMC',
             'industry' => 'wafer',
             'price' => '800',
-            'created_by' => 'StockSeeder',
-            'updated_by' => 'StockSeeder'
+            'created_by' => 'system-StockSeeder',
+            'updated_by' => 'system-StockSeeder'
         ]);
     }
 }

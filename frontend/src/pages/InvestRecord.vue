@@ -2,7 +2,7 @@
     <v-card class="px-4 py-5">
         <v-card-title>Record</v-card-title>
         <v-date-input label="Date" v-model="form.buy_date" prepend-icon="" />
-        <v-select label="Stock ID" v-model="form.stock_id" :items="options.stock" item-title="name" item-value="id" filled/>
+        <v-autocomplete label="Stock ID" v-model="form.stock_id" :items="options.stock" item-title="name" item-value="id" filled/>
         <v-text-field label="Price" v-model="form.buy_price" />
         <v-text-field label="Amount" v-model="form.amount" />
         <v-card-actions>

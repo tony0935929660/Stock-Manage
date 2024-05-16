@@ -17,16 +17,14 @@ class CreateStockDailiesTable extends Migration
             $table->id();
             $table->foreignId('stock_id')->constrained('stocks')->onUpdate('cascade')->onDelete('cascade');
             $table->date('date');
-            $table->integer('volume');
-            $table->integer('amount');
+            $table->integer('trading_volume');
+            $table->integer('trading_money');
             $table->float('open', 8, 2);
+            $table->float('max', 8, 2);
+            $table->float('min', 8, 2);
             $table->float('close', 8, 2);
-            $table->float('high', 8, 2);
-            $table->float('low', 8, 2);
-            $table->float('change', 8, 2);
-            $table->integer('total_transaction');
-            $table->string('created_by');
-            $table->string('updated_by');
+            $table->float('spread', 8, 2);
+            $table->integer('trading_turnover');
             $table->timestamps();
         });
     }

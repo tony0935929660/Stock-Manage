@@ -10,15 +10,15 @@ class StockDaily extends Model
     use HasFactory;
 
     protected $fillable = [
-        'stock_id',
-        'date',
-        'volume',
-        'amount',
-        'open',
-        'close',
-        'high',
-        'low',
-        'change',
-        'total_transaction'
+        "date",
+        "stock_id",
+        "trading_volume",
+        "trading_money",
+        "open",
+        "max",
+        "min",
+        "close",
+        "spread",
+        "trading_turnover"
     ];
 }

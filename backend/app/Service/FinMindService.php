@@ -13,6 +13,12 @@ class FinMindService
         return $this->callApi('TaiwanStockInfo');
     }
 
+    public function getStockPriceByDate(string $dataId, string $date)
+    {
+        $data = $this->callApi('TaiwanStockPrice', $dataId, $date, $date);
+        return $data[0];
+    }
+
     protected function callApi(string $dataset, ?string $dataId = null, ?string $startDate = null, ?string $endDate = null)
     {
         $token = env('FINMIND_TOKEN');
@@ -34,7 +40,7 @@ class FinMindService
             $jsonResponse = $response->json();
             return $jsonResponse['data'];
         } else {
-            return response()->json(['error' => 'Failed to fetch data from API'], $response->status());
+            throw new \Exception('FinMind API failed.');
         }
     }
 }

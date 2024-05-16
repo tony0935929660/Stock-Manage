@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UserStock;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
-class UserStockController extends Controller
+class TransactionController extends Controller
 {
     public function buy(Request $request): Response
     {
@@ -37,22 +37,22 @@ class UserStockController extends Controller
             "buy_fee_discount" => $discount,
             "total_cost" => $total
         ]);
-        $userStock = UserStock::create($params);
+        $transaction = Transaction::create($params);
 
-        return $this->createApiResponse(['id' => $userStock->id]);
+        return $this->createApiResponse(['id' => $transaction->id]);
     }
 
     public function historyList(): Response
     {
-        $userStocks = UserStock::where('user_id', auth()->user()->id)->get();
-        return $this->createApiResponse($userStocks);
+        $transaction = Transaction::where('user_id', auth()->user()->id)->get();
+        return $this->createApiResponse($transaction);
     }
 
     public function holdingList(): Response
     {
-        $userStocks = UserStock::selectRaw('stock_id, sum(total_cost) as total_cost, sum(amount) as amount')
+        $transaction = Transaction::selectRaw('stock_id, sum(total_cost) as total_cost, sum(amount) as amount')
             ->groupBy('stock_id')
             ->get();
-        return $this->createApiResponse($userStocks);
+        return $this->createApiResponse($transaction);
     }
 }
