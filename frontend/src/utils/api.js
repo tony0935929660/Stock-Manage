@@ -1,9 +1,8 @@
 import axios from "axios"
 import store from "@/utils/store"
 
-const domain = "http://127.0.0.1:8000";
 const baseAPI = axios.create({
-    baseURL: `${domain}/api`,
+    baseURL: import.meta.env.VITE_API_URL,
     headers: {
         "Content-Type": "application/json",
         "accept": "application/json"
