@@ -50,7 +50,7 @@ class TransactionController extends Controller
 
     public function holdingList(): Response
     {
-        $transaction = Transaction::selectRaw('stock_id, sum(total_cost) as total_cost, sum(amount) as amount')
+        $transaction = Transaction::selectRaw('stock_id, sum(total) as total, sum(quantity) as quantity')
             ->groupBy('stock_id')
             ->get();
         return $this->createApiResponse($transaction);

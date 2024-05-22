@@ -38,4 +38,36 @@ class StockController extends Controller
 
         return $this->createApiResponse($prices);
     }
+
+    public function getTaiexIndex(): Response
+    {
+        $stock = $this->stockRepository->findByCode('TAIEX');
+
+        $prices = $this->finMindService->getStockPriceByDateRange(
+            $stock->code, 
+            Carbon::now()->format('Y-m-d')
+        );
+
+        if (!$prices) {
+            return $this->createApiResponse();
+        }
+
+        return $this->createApiResponse($prices[0]);
+    }
+
+    public function getTpexIndex(): Response
+    {
+        $stock = $this->stockRepository->findByCode('TPEx');
+
+        $prices = $this->finMindService->getStockPriceByDateRange(
+            $stock->code, 
+            Carbon::now()->format('Y-m-d')
+        );
+
+        if (!$prices) {
+            return $this->createApiResponse();
+        }
+
+        return $this->createApiResponse($prices[0]);
+    }
 }

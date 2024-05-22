@@ -24,6 +24,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/stock', [StockController::class, 'index']);
 Route::get('/stock/{stock}/info', [StockController::class, 'getInfoByDateRange']);
 
+Route::get('/index/taiex', [StockController::class, 'getTaiexIndex']);
+Route::get('/index/tpex', [StockController::class, 'getTpexIndex']);
+
 Route::post('/user-stock', [TransactionController::class, 'buy']);
 Route::get('/user-stock/history', [TransactionController::class, 'historyList']);
 Route::get('/user-stock/holding', [TransactionController::class, 'holdingList']);
