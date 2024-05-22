@@ -1,44 +1,44 @@
 <template>
     <v-row>
-        <v-card>
+        <v-card :loading="!taiexIndex">
             <v-card-title>大盤指數</v-card-title>
             <div
                 class="d-flex justify-center mx-5" 
                 style="font-size: 30px;"
-                :style="{ color: parseInt(taiexIndex?.spread) > 0 ? 'red' : 'green' }">
+                :style="{ color: getColor(taiexIndex?.spread) }">
                 {{ taiexIndex?.close }}
             </div>
             <v-card-actions
                 class="d-flex justify-space-between"
-                :style="{ color: parseInt(taiexIndex?.spread) > 0 ? 'red' : 'green' }">
+                :style="{ color: getColor(taiexIndex?.spread) }">
                 <div>
                     {{ taiexIndex?.spread }}
-                    <v-icon v-if="parseInt(tpexIndex?.spread) > 0">mdi-trending-up</v-icon>
-                    <v-icon v-else>mdi-trending-down</v-icon>
+                    <v-icon v-if="parseFloat(taiexIndex?.spread) > 0">mdi-trending-up</v-icon>
+                    <v-icon v-else-if="parseFloat(taiexIndex?.spread) < 0">mdi-trending-down</v-icon>
                 </div>
-                <div>
-                    {{ taiexIndex ? (taiexIndex?.spread / taiexIndex?.open).toFixed(2) : 0 }}%
+                <div v-if="taiexIndex">
+                    {{ (taiexIndex?.spread / taiexIndex?.open).toFixed(2) }}%
                 </div>
             </v-card-actions>
         </v-card>
-        <v-card>
+        <v-card :loading="!tpexIndex">
             <v-card-title>櫃買指數</v-card-title>
             <div
                 class="d-flex justify-center mx-5" 
                 style="font-size: 30px;"
-                :style="{ color: parseInt(tpexIndex?.spread) > 0 ? 'red' : 'green' }">
+                :style="{ color: getColor(tpexIndex?.spread) }">
                 {{ tpexIndex?.close }}
             </div>
             <v-card-actions
                 class="d-flex justify-space-between"
-                :style="{ color: parseInt(tpexIndex?.spread) > 0 ? 'red' : 'green' }">
+                :style="{ color: getColor(tpexIndex?.spread) }">
                 <div>
                     {{ tpexIndex?.spread }}
-                    <v-icon v-if="parseInt(tpexIndex?.spread) > 0">mdi-trending-up</v-icon>
-                    <v-icon v-else>mdi-trending-down</v-icon>
+                    <v-icon v-if="parseFloat(tpexIndex?.spread) > 0">mdi-trending-up</v-icon>
+                    <v-icon v-else-if="parseFloat(tpexIndex?.spread) < 0">mdi-trending-down</v-icon>
                 </div>
-                <div>
-                    {{ tpexIndex ? (tpexIndex?.spread / tpexIndex?.open).toFixed(2) : 0 }}%
+                <div v-if="tpexIndex">
+                    {{ (tpexIndex?.spread / tpexIndex?.open).toFixed(2) }}%
                 </div>
             </v-card-actions>
         </v-card>
@@ -56,6 +56,16 @@ onMounted(() => {
 
 const taiexIndex = ref()
 const tpexIndex = ref()
+
+function getColor(number) {
+    if (parseFloat(number) > 0) {
+        return 'red'
+    } else if (parseFloat(number) < 0)  {
+        return 'green'
+    } else {
+        return 'grey'
+    }
+}
 
 async function getTaiexIndex() {
     try {
