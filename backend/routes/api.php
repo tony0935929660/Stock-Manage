@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/stock', [StockController::class, 'index']);
-Route::get('/stock/{stock}/recent', [StockController::class, 'getRecentInfo']);
+Route::get('/stock/{stock}/info', [StockController::class, 'getInfoByDateRange']);
 
 Route::post('/user-stock', [TransactionController::class, 'buy']);
 Route::get('/user-stock/history', [TransactionController::class, 'historyList']);

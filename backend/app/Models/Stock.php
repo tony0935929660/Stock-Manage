@@ -18,10 +18,7 @@ class Stock extends Model
         'updated_by'
     ];
 
-    static public function findByCode(string $code): ?Stock
-    {
-        return Stock::where('code', $code)->first();
-    }
+    static $nonStockCategory = ['大盤', 'Index'];
 
     public function stockDailies()
     {

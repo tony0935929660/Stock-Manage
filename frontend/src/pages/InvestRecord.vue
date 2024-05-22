@@ -13,7 +13,7 @@
         <v-card class="px-4 py-5" style="width: 70%">
             <v-card-title>{{ form.stock?.name }}</v-card-title>
             <v-card-subtitle>{{ form.stock?.code }}  {{ form.stock?.industry_category }}</v-card-subtitle>
-            <bTable class="mt-10" :columns="columns" :data="data"/>
+            <v-data-table class="mt-10" :headers="columns" :items="data" />
         </v-card>
     </v-row>
 </template>
@@ -23,7 +23,6 @@ import { onMounted, ref, watch } from 'vue'
 import { API } from '@/utils/api'
 import { useRouter } from "vue-router"
 import moment from 'moment'
-import bTable from '@/components/BasicTable.vue'
 
 onMounted(() => {
     getStockList()
@@ -31,46 +30,46 @@ onMounted(() => {
 
 const router = useRouter();
 const form = ref({})
-const data = ref({})
+const data = ref([])
 const options = ref({
     'stock': []
 });
 const columns = ref([
     {
-        'key': 'date',
-        'header': '日期'
+        'value': 'date',
+        'title': '日期'
     },
     {
-        'key': 'trading_volume',
-        'header': '交易量'
+        'value': 'Trading_Volume',
+        'title': '交易量'
     },
     {
-        'key': 'trading_money',
-        'header': '交易金額'
+        'value': 'Trading_money',
+        'title': '交易金額'
     },
     {
-        'key': 'open',
-        'header': '開盤價'
+        'value': 'open',
+        'title': '開盤價'
     },
     {
-        'key': 'max',
-        'header': '最高價'
+        'value': 'max',
+        'title': '最高價'
     },
     {
-        'key': 'min',
-        'header': '最低價'
+        'value': 'min',
+        'title': '最低價'
     },
     {
-        'key': 'close',
-        'header': '收盤價'
+        'value': 'close',
+        'title': '收盤價'
     },
     {
-        'key': 'spread',
-        'header': '漲跌幅'
+        'value': 'spread',
+        'title': '漲跌幅'
     },
     {
-        'key': 'close',
-        'header': '交易筆數'
+        'value': 'Trading_turnover',
+        'title': '交易筆數'
     },
 ])
 
@@ -79,18 +78,26 @@ watch(() => form.value.stock, (newValue) => {
         return
     }
     data.value = []
-    getTodayInfo(newValue.id)
+    getInfo(newValue.id)
 })
 
-async function getTodayInfo(id) {
-    const today = moment().format('YYYY-MM-DD')
-    const response = await API('get', `/stock/${id}/recent`, {'date': today})
-    data.value = response
+async function getInfo(id) {
+    try {
+        const monthAgo = moment().subtract(1, 'month').format('YYYY-MM-DD')
+        const response = await API('get', `/stock/${id}/info`, {'start_date': monthAgo})
+        data.value = response
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 async function getStockList() {
-    const response = await API('get', '/stock')
-    options.value.stock = response
+    try {
+        const response = await API('get', '/stock')
+        options.value.stock = response
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 async function submit() {
