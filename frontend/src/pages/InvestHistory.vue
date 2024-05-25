@@ -14,7 +14,7 @@ onMounted(() => {
 const data = ref();
 const columns = ref([
     {
-        "key": "buy_date",
+        "key": "date",
         "header": "Date"
     },
     {
@@ -22,15 +22,15 @@ const columns = ref([
         "header": "Stock"
     },
     {
-        "key": "buy_price",
+        "key": "price",
         "header": "Price"
     },
     {
-        "key": "amount",
-        "header": "Amount"
+        "key": "quantity",
+        "header": "Quantity"
     },
     {
-        "key": "total_cost",
+        "key": "total",
         "header": "Total"
     }
 ]);

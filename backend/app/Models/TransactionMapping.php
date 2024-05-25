@@ -2,21 +2,19 @@
 
 namespace App\Models;
 
+use App\Traits\CreatedUpdatedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Stock extends Model
+class TransactionMapping extends Model
 {
-    use HasFactory;
+    use HasFactory, CreatedUpdatedBy;
 
     protected $fillable = [
-        'code',
-        'name',
-        'industry_category',
-        'type',
+        'buy_transaction_id',
+        'sell_transaction_id',
+        'quantity',
         'created_by',
         'updated_by'
     ];
-
-    static $nonStockCategory = ['大盤', 'Index'];
 }

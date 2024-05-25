@@ -27,16 +27,17 @@ Route::get('/stock/{stock}/info', [StockController::class, 'getInfoByDateRange']
 Route::get('/index/taiex', [StockController::class, 'getTaiexIndex']);
 Route::get('/index/tpex', [StockController::class, 'getTpexIndex']);
 
-Route::post('/user-stock', [TransactionController::class, 'buy']);
+Route::post('/transaction/buy', [TransactionController::class, 'buy']);
+Route::post('/transaction/sell', [TransactionController::class, 'sell']);
 Route::get('/user-stock/history', [TransactionController::class, 'historyList']);
 Route::get('/user-stock/holding', [TransactionController::class, 'holdingList']);
 
 Route::group([
     'prefix' => 'auth'
 ], function ($router) {
-    Route::post('/register', [AuthController::class, 'register']);       // 使用者註冊
-    Route::post('/login', [AuthController::class, 'login']);          // 使用者登入 (回傳 JWT token 及使用者資訊)
-    Route::get('/profile', [AuthController::class, 'userProfile']);    // 以 JWT token 取得使用者資訊
-    Route::post('/refresh', [AuthController::class, 'refresh']);        // 更新 JWT token
-    Route::post('/logout', [AuthController::class, 'logout']);         // 使用者登出，移除 JWT token
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/profile', [AuthController::class, 'userProfile']);
+    Route::post('/refresh', [AuthController::class, 'refresh']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 });

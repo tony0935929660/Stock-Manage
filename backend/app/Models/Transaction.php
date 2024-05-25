@@ -13,14 +13,14 @@ class Transaction extends Model
     protected $fillable = [
         'user_id',
         'stock_id',
-        'related_transaction_id',
-        'type',
+        'is_buy',
         'quantity',
         'date',
         'price',
         'fee_discount',
         'tax',
         'total',
+        'remaining',
         'created_by',
         'updated_by'
     ];

@@ -1,16 +1,20 @@
 <template>
     <v-row class="d-flex justify-space-between">
-        <v-card class="px-4 py-5" style="width: 28%">
+        <v-card class="px-4 py-5" style="width: 28%; height: 40%">
             <v-card-title>Record</v-card-title>
-            <v-date-input label="Date" v-model="form.buy_date" prepend-icon="" />
+            <v-date-input label="Date" v-model="form.date" prepend-icon="" />
             <v-autocomplete label="Stock" v-model="form.stock" :items="options.stock" item-title="name" return-object/>
-            <v-text-field label="Price" v-model="form.buy_price" />
-            <v-text-field label="Amount" v-model="form.amount" />
+            <v-text-field label="Price" v-model="form.price" />
+            <v-text-field label="Quantity" v-model="form.quantity" />
+            <v-radio-group v-model="isBuy" inline>
+                <v-radio label="Buy" :value="true" />
+                <v-radio label="Sell" :value="false" />
+            </v-radio-group>
             <v-card-actions>
                 <v-btn size="large" variant="tonal" @click="submit">Submit</v-btn>
             </v-card-actions>
         </v-card>
-        <v-card class="px-4 py-5" style="width: 70%">
+        <v-card v-if="data.length" class="px-4 py-5" style="width: 70%">
             <v-card-title>{{ form.stock?.name }}</v-card-title>
             <v-card-subtitle>{{ form.stock?.code }}  {{ form.stock?.industry_category }}</v-card-subtitle>
             <v-data-table class="mt-10" :headers="columns" :items="data" />
@@ -28,8 +32,9 @@ onMounted(() => {
     getStockList()
 })
 
-const router = useRouter();
+const router = useRouter()
 const form = ref({})
+const isBuy = ref(true)
 const data = ref([])
 const options = ref({
     'stock': []
@@ -77,6 +82,7 @@ watch(() => form.value.stock, (newValue) => {
     if (!newValue) {
         return
     }
+    form.value.stock_id = newValue.id
     data.value = []
     getInfo(newValue.id)
 })
@@ -100,12 +106,29 @@ async function getStockList() {
     }
 }
 
-async function submit() {
+async function buy() {
     try {
-        await API('post', '/user-stock', form.value)
+        await API('post', '/transaction/buy', form.value)
         router.push('/')
     } catch (error) {
         console.log(error)
+    }
+}
+
+async function sell() {
+    try {
+        await API('post', '/transaction/sell', form.value)
+        router.push('/')
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+function submit() {
+    if (isBuy.value) {
+        return buy()
+    } else {
+        return sell()
     }
 }
 </script>
