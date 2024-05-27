@@ -82,12 +82,14 @@ class TransactionController extends Controller
         // TODO calculate function can define in model
         $discount = 0.28;
         $fee = $params['price'] * $params['quantity'] * 0.1425 * $discount;
-        $total = $params['price'] * $params['quantity'] + $fee;
+        $tax = $params['price'] * $params['quantity'] * 0.3;
+        $total = $params['price'] * $params['quantity'] + $fee + $tax;
 
         $params = array_merge($params, [
             "user_id" => auth()->user()->id,
             "is_buy" => false,
             "fee_discount" => $discount,
+            "tax" => $tax,
             "total" => $total
         ]);
         $sellTransaction = Transaction::create($params);
@@ -120,13 +122,16 @@ class TransactionController extends Controller
 
     public function historyList(): Response
     {
-        $transaction = Transaction::where('user_id', auth()->user()->id)->get();
+        $transaction = Transaction::with('stock')->where('user_id', auth()->user()->id)->get();
         return $this->createApiResponse($transaction);
     }
 
     public function holdingList(): Response
     {
-        $transaction = Transaction::selectRaw('stock_id, sum(total) as total, sum(quantity) as quantity')
+        $transaction = Transaction::selectRaw('stock_id, 
+            SUM(CASE WHEN is_buy = 1 THEN total ELSE -total END) as total, 
+            SUM(CASE WHEN is_buy = 1 THEN quantity ELSE -quantity END) AS quantity')
+            ->with('stock')
             ->groupBy('stock_id')
             ->get();
         return $this->createApiResponse($transaction);

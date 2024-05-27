@@ -1,11 +1,19 @@
 <template>
-    <bTable :columns="columns" :data="data" />
+    <v-data-table :headers="columns" :items="data">
+        <template v-slot:item.is_buy="{ item }">
+            <span v-if="item.is_buy === 1">Buy</span>
+            <span v-else>Sell</span>
+        </template>
+        <!-- <template v-slot:item.total="{ item }">
+            <span style="color: green" v-if="item.is_buy === 1">-{{ item.total }}</span>
+            <span style="color: red" v-else>+{{ item.total }}</span>
+        </template> -->
+    </v-data-table>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
 import { API } from '@/utils/api';
-import bTable from '@/components/BasicTable.vue'
 
 onMounted(() => {
     getList()
@@ -14,28 +22,32 @@ onMounted(() => {
 const data = ref();
 const columns = ref([
     {
-        "key": "date",
-        "header": "Date"
+        "value": "date",
+        "title": "Date"
     },
     {
-        "key": "stock_id",
-        "header": "Stock"
+        "value": "is_buy",
+        "title": "Type"
     },
     {
-        "key": "price",
-        "header": "Price"
+        "value": "stock.name",
+        "title": "Stock"
     },
     {
-        "key": "quantity",
-        "header": "Quantity"
+        "value": "price",
+        "title": "Price"
     },
     {
-        "key": "total",
-        "header": "Total"
+        "value": "quantity",
+        "title": "Quantity"
+    },
+    {
+        "value": "total",
+        "title": "Total"
     }
 ]);
 
 const getList = async () => {
-    data.value = await API('get', '/user-stock/history');
+    data.value = await API('get', '/transaction/history');
 }
 </script>

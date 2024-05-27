@@ -29,8 +29,8 @@ Route::get('/index/tpex', [StockController::class, 'getTpexIndex']);
 
 Route::post('/transaction/buy', [TransactionController::class, 'buy']);
 Route::post('/transaction/sell', [TransactionController::class, 'sell']);
-Route::get('/user-stock/history', [TransactionController::class, 'historyList']);
-Route::get('/user-stock/holding', [TransactionController::class, 'holdingList']);
+Route::get('/transaction/history', [TransactionController::class, 'historyList']);
+Route::get('/transaction/holding', [TransactionController::class, 'holdingList']);
 
 Route::group([
     'prefix' => 'auth'

@@ -1,11 +1,10 @@
 <template>
-    <bTable :columns="columns" :data="data"/>
+    <v-data-table :headers="columns" :items="data" />
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
 import { API } from '@/utils/api';
-import bTable from '@/components/BasicTable.vue'
 
 onMounted(() => {
     getList()
@@ -14,20 +13,20 @@ onMounted(() => {
 const data = ref();
 const columns = ref([
     {
-        "key": "stock_id",
-        "header": "Stock"
+        "value": "stock.name",
+        "title": "Stock"
     },
     {
-        "key": "amount",
-        "header": "Amount"
+        "value": "quantity",
+        "title": "Quantity"
     },
     {
-        "key": "total_cost",
-        "header": "Total"
+        "value": "total",
+        "title": "Total"
     }
 ]);
 
 const getList = async () => {
-    data.value = await API('get', '/user-stock/holding');
+    data.value = await API('get', '/transaction/holding');
 }
 </script>
