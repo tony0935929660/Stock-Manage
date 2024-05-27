@@ -12,42 +12,42 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
-import { API } from '@/utils/api';
+    import { onMounted, ref } from 'vue';
+    import { API } from '@/utils/api';
 
-onMounted(() => {
-    getList()
-})
+    onMounted(() => {
+        getList()
+    })
 
-const data = ref();
-const columns = ref([
-    {
-        "value": "date",
-        "title": "Date"
-    },
-    {
-        "value": "is_buy",
-        "title": "Type"
-    },
-    {
-        "value": "stock.name",
-        "title": "Stock"
-    },
-    {
-        "value": "price",
-        "title": "Price"
-    },
-    {
-        "value": "quantity",
-        "title": "Quantity"
-    },
-    {
-        "value": "total",
-        "title": "Total"
+    const data = ref();
+    const columns = ref([
+        {
+            "value": "date",
+            "title": "Date"
+        },
+        {
+            "value": "is_buy",
+            "title": "Type"
+        },
+        {
+            "value": "stock.name",
+            "title": "Stock"
+        },
+        {
+            "value": "price",
+            "title": "Price"
+        },
+        {
+            "value": "quantity",
+            "title": "Quantity"
+        },
+        {
+            "value": "total",
+            "title": "Total"
+        }
+    ]);
+
+    const getList = async () => {
+        data.value = await API('get', '/transaction/history');
     }
-]);
-
-const getList = async () => {
-    data.value = await API('get', '/transaction/history');
-}
 </script>

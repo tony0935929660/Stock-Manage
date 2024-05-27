@@ -122,18 +122,24 @@ class TransactionController extends Controller
 
     public function historyList(): Response
     {
-        $transaction = Transaction::with('stock')->where('user_id', auth()->user()->id)->get();
+        $transaction = Transaction::with('stock')
+            ->where('user_id', auth()->user()->id)
+            ->orderBy('date', 'desc')
+            ->get();
         return $this->createApiResponse($transaction);
     }
 
     public function holdingList(): Response
     {
-        $transaction = Transaction::selectRaw('stock_id, 
-            SUM(CASE WHEN is_buy = 1 THEN total ELSE -total END) as total, 
-            SUM(CASE WHEN is_buy = 1 THEN quantity ELSE -quantity END) AS quantity')
-            ->with('stock')
-            ->groupBy('stock_id')
-            ->get();
-        return $this->createApiResponse($transaction);
+        $holdings = $this->transactionRepository->getHoldings(auth()->user()->id);
+
+        return $this->createApiResponse($holdings);
+    }
+
+    public function holdingCategoryPieChartData(): Response
+    {
+        $categories = $this->transactionRepository->getHoldingCategories(auth()->user()->id);
+
+        return $this->createApiResponse($categories);
     }
 }

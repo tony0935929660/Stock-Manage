@@ -15,39 +15,39 @@
 </template>
 
 <script setup>
-import { API } from '@/utils/api.js'
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
+    import { API } from '@/utils/api.js'
+    import { ref } from 'vue'
+    import { useRouter } from 'vue-router'
+    import { useStore } from 'vuex'
 
-const store = useStore();
-const router = useRouter();
-const form = ref({});
-const showPassword = ref(false);
+    const store = useStore();
+    const router = useRouter();
+    const form = ref({});
+    const showPassword = ref(false);
 
-async function refreshToken() {
-    try {
-        console.log('refreshing token...')
-        const response = await API('post', '/auth/refresh')
-        store.dispatch("updateToken", response)
-        setTimeout(refreshToken, store.getters.renewTokenTime)
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-async function login() {
-    try {
-        console.log('logging...')
-        const response = await API('post', '/auth/login', form.value)
-        store.dispatch("updateToken", response)
-        router.push('/')
-        
-        if (store.getters.renewTokenTime) {
+    async function refreshToken() {
+        try {
+            console.log('refreshing token...')
+            const response = await API('post', '/auth/refresh')
+            store.dispatch("updateToken", response)
             setTimeout(refreshToken, store.getters.renewTokenTime)
+        } catch (error) {
+            console.log(error)
         }
-    } catch (error) {
-        console.log(error)
     }
-}
+
+    async function login() {
+        try {
+            console.log('logging...')
+            const response = await API('post', '/auth/login', form.value)
+            store.dispatch("updateToken", response)
+            router.push('/')
+            
+            if (store.getters.renewTokenTime) {
+                setTimeout(refreshToken, store.getters.renewTokenTime)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 </script>

@@ -32,6 +32,8 @@ Route::post('/transaction/sell', [TransactionController::class, 'sell']);
 Route::get('/transaction/history', [TransactionController::class, 'historyList']);
 Route::get('/transaction/holding', [TransactionController::class, 'holdingList']);
 
+Route::get('/chart/pie/holding-category', [TransactionController::class, 'holdingCategoryPieChartData']);
+
 Route::group([
     'prefix' => 'auth'
 ], function ($router) {

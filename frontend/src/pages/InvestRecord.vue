@@ -23,112 +23,112 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from 'vue'
-import { API } from '@/utils/api'
-import { useRouter } from "vue-router"
-import moment from 'moment'
+    import { onMounted, ref, watch } from 'vue'
+    import { API } from '@/utils/api'
+    import { useRouter } from "vue-router"
+    import moment from 'moment'
 
-onMounted(() => {
-    getStockList()
-})
+    onMounted(() => {
+        getStockList()
+    })
 
-const router = useRouter()
-const form = ref({})
-const isBuy = ref(true)
-const data = ref([])
-const options = ref({
-    'stock': []
-});
-const columns = ref([
-    {
-        'value': 'date',
-        'title': '日期'
-    },
-    {
-        'value': 'Trading_Volume',
-        'title': '交易量'
-    },
-    {
-        'value': 'Trading_money',
-        'title': '交易金額'
-    },
-    {
-        'value': 'open',
-        'title': '開盤價'
-    },
-    {
-        'value': 'max',
-        'title': '最高價'
-    },
-    {
-        'value': 'min',
-        'title': '最低價'
-    },
-    {
-        'value': 'close',
-        'title': '收盤價'
-    },
-    {
-        'value': 'spread',
-        'title': '漲跌幅'
-    },
-    {
-        'value': 'Trading_turnover',
-        'title': '交易筆數'
-    },
-])
+    const router = useRouter()
+    const form = ref({})
+    const isBuy = ref(true)
+    const data = ref([])
+    const options = ref({
+        'stock': []
+    });
+    const columns = ref([
+        {
+            'value': 'date',
+            'title': '日期'
+        },
+        {
+            'value': 'Trading_Volume',
+            'title': '交易量'
+        },
+        {
+            'value': 'Trading_money',
+            'title': '交易金額'
+        },
+        {
+            'value': 'open',
+            'title': '開盤價'
+        },
+        {
+            'value': 'max',
+            'title': '最高價'
+        },
+        {
+            'value': 'min',
+            'title': '最低價'
+        },
+        {
+            'value': 'close',
+            'title': '收盤價'
+        },
+        {
+            'value': 'spread',
+            'title': '漲跌幅'
+        },
+        {
+            'value': 'Trading_turnover',
+            'title': '交易筆數'
+        },
+    ])
 
-watch(() => form.value.stock, (newValue) => {
-    if (!newValue) {
-        return
+    watch(() => form.value.stock, (newValue) => {
+        if (!newValue) {
+            return
+        }
+        form.value.stock_id = newValue.id
+        data.value = []
+        getInfo(newValue.id)
+    })
+
+    async function getInfo(id) {
+        try {
+            const monthAgo = moment().subtract(1, 'month').format('YYYY-MM-DD')
+            const response = await API('get', `/stock/${id}/info`, {'start_date': monthAgo})
+            data.value = response
+        } catch (error) {
+            console.log(error)
+        }
     }
-    form.value.stock_id = newValue.id
-    data.value = []
-    getInfo(newValue.id)
-})
 
-async function getInfo(id) {
-    try {
-        const monthAgo = moment().subtract(1, 'month').format('YYYY-MM-DD')
-        const response = await API('get', `/stock/${id}/info`, {'start_date': monthAgo})
-        data.value = response
-    } catch (error) {
-        console.log(error)
+    async function getStockList() {
+        try {
+            const response = await API('get', '/stock')
+            options.value.stock = response
+        } catch (error) {
+            console.log(error)
+        }
     }
-}
 
-async function getStockList() {
-    try {
-        const response = await API('get', '/stock')
-        options.value.stock = response
-    } catch (error) {
-        console.log(error)
+    async function buy() {
+        try {
+            await API('post', '/transaction/buy', form.value)
+            router.push('/')
+        } catch (error) {
+            console.log(error)
+        }
     }
-}
 
-async function buy() {
-    try {
-        await API('post', '/transaction/buy', form.value)
-        router.push('/')
-    } catch (error) {
-        console.log(error)
+    async function sell() {
+        try {
+            await API('post', '/transaction/sell', form.value)
+            router.push('/')
+        } catch (error) {
+            console.log(error)
+        }
     }
-}
 
-async function sell() {
-    try {
-        await API('post', '/transaction/sell', form.value)
-        router.push('/')
-    } catch (error) {
-        console.log(error)
+    function submit() {
+        if (isBuy.value) {
+            return buy()
+        } else {
+            return sell()
+        }
     }
-}
-
-function submit() {
-    if (isBuy.value) {
-        return buy()
-    } else {
-        return sell()
-    }
-}
 </script>
