@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Transaction;
-use App\Models\User;
 use Illuminate\Support\Collection;
 
 class TransactionRepository
@@ -33,7 +32,7 @@ class TransactionRepository
             ->get();
     }
 
-    public function getHoldingCategories(string $userId): Collection
+    public function getHoldingCategoriesByUserId(string $userId): Collection
     {
         return $this->model
             ->selectRaw('stocks.industry_category, SUM(CASE WHEN is_buy = 1 THEN total ELSE -total END) AS total')
@@ -44,12 +43,15 @@ class TransactionRepository
             ->get();
     }
 
-    public function getHoldings(string $userId): Collection
+    public function getHoldingsByUserId(string $userId): Collection
     {
-        return Transaction::selectRaw('stock_id, 
+        return Transaction::selectRaw('stock_id,
+                stocks.name as stock_name,
+                stocks.code as stock_code,
+                stocks.current_price as stock_current_price,
                 SUM(CASE WHEN is_buy = 1 THEN total ELSE -total END) as total, 
                 SUM(CASE WHEN is_buy = 1 THEN quantity ELSE -quantity END) AS quantity')
-            ->with('stock')
+            ->leftJoin('stocks', 'stocks.id', '=', 'transactions.stock_id')
             ->where('user_id', $userId)
             ->groupBy('stock_id')
             ->get();

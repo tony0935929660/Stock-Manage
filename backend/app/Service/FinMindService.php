@@ -14,18 +14,18 @@ class FinMindService
         return $this->callApi('TaiwanStockInfo');
     }
 
-    public function getStockPriceByDateRange(string $dataId, string $startDate, ?string $endDate = null): array
+    public function getStockPriceByDateRange(string $stockCode, string $startDate, ?string $endDate = null): array
     {
-        return $this->callApi('TaiwanStockPrice', $dataId, $startDate, $endDate);
+        return $this->callApi('TaiwanStockPrice', $stockCode, $startDate, $endDate);
     }
 
-    protected function callApi(string $dataset, ?string $dataId = null, ?string $startDate = null, ?string $endDate = null): array
+    protected function callApi(string $dataset, ?string $stockCode = null, ?string $startDate = null, ?string $endDate = null): array
     {
         $token = env('FINMIND_TOKEN');
 
         $query = [
             'dataset' => $dataset,
-            'data_id' => $dataId,
+            'data_id' => $stockCode,
             'start_date' => $startDate,
             'end_date' => $endDate
         ];

@@ -7,9 +7,17 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\Service\StockService;
 
 class AuthController extends Controller
 {
+    protected $stockService;
+
+    public function __construct(StockService $stockService)
+    {
+        $this->stockService = $stockService;
+    }
+
     public function login(Request $request): Response
     {
         $validator = Validator::make($request->all(), [
@@ -24,6 +32,8 @@ class AuthController extends Controller
         if (!$token = Auth::attempt($validator->validated())) {
             return $this->createUnauthorizeApiResponse();
         }
+
+        $this->stockService->updateCurrentPriceByUser(auth()->user()->id);
 
         return $this->createNewToken($token);
     }

@@ -14,6 +14,7 @@ class Stock extends Model
         'name',
         'industry_category',
         'type',
+        'current_price',
         'created_by',
         'updated_by'
     ];

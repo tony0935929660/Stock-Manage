@@ -13,7 +13,7 @@
     const data = ref();
     const columns = ref([
         {
-            "value": "stock.name",
+            "value": "stock_name",
             "title": "Stock"
         },
         {

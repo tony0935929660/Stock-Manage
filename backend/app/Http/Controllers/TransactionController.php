@@ -131,14 +131,14 @@ class TransactionController extends Controller
 
     public function holdingList(): Response
     {
-        $holdings = $this->transactionRepository->getHoldings(auth()->user()->id);
+        $holdings = $this->transactionRepository->getHoldingsByUserId(auth()->user()->id);
 
         return $this->createApiResponse($holdings);
     }
 
     public function holdingCategoryPieChartData(): Response
     {
-        $categories = $this->transactionRepository->getHoldingCategories(auth()->user()->id);
+        $categories = $this->transactionRepository->getHoldingCategoriesByUserId(auth()->user()->id);
 
         return $this->createApiResponse($categories);
     }

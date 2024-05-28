@@ -23,6 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/stock', [StockController::class, 'index']);
 Route::get('/stock/{stock}/info', [StockController::class, 'getInfoByDateRange']);
+Route::get('/stock/highest-profit', [StockController::class, 'getHighestProfit']);
+Route::get('/stock/highest-roi', [StockController::class, 'getHighestROI']);
 
 Route::get('/index/taiex', [StockController::class, 'getTaiexIndex']);
 Route::get('/index/tpex', [StockController::class, 'getTpexIndex']);

@@ -1,11 +1,11 @@
 <template>
     <div>
-        <v-row>
-            <v-card :loading="!taiexIndex">
+        <v-row class="d-flex justify-space-between mb-5">
+            <v-card :loading="!taiexIndex" style="width: 24%">
                 <v-card-title>Stock Market Index</v-card-title>
                 <div
                     class="d-flex justify-center mx-10" 
-                    style="font-size: 30px;"
+                    style="font-size: 40px;"
                     :style="{ color: getColor(taiexIndex?.spread) }">
                     {{ taiexIndex?.close }}
                 </div>
@@ -22,11 +22,11 @@
                     </div>
                 </v-card-actions>
             </v-card>
-            <v-card :loading="!tpexIndex">
+            <v-card :loading="!tpexIndex" style="width: 24%">
                 <v-card-title>OTC Index</v-card-title>
                 <div
                     class="d-flex justify-center mx-10" 
-                    style="font-size: 30px;"
+                    style="font-size: 40px;"
                     :style="{ color: getColor(tpexIndex?.spread) }">
                     {{ tpexIndex?.close }}
                 </div>
@@ -43,11 +43,41 @@
                     </div>
                 </v-card-actions>
             </v-card>
+            <v-card :loading="!highestProfit" style="width: 24%">
+                <v-card-title>
+                    Highest Profit
+                </v-card-title>
+                <div
+                    v-if="highestProfit"
+                    class="d-flex justify-center mx-10" 
+                    style="font-size: 40px;"
+                    :style="{ color: getColor(highestProfit?.profit) }">
+                    ${{ highestProfit?.profit }}
+                </div>
+                <v-card-actions :style="{ color: getColor(highestROI?.ROI) }">{{ highestProfit?.stock_name }} {{ highestProfit?.stock_code }}</v-card-actions>
+            </v-card>
+            <v-card :loading="!highestROI" style="width: 24%">
+                <v-card-title>
+                    Highest ROI
+                </v-card-title>
+                <div
+                    v-if="highestROI"
+                    class="d-flex justify-center mx-10" 
+                    style="font-size: 40px;"
+                    :style="{ color: getColor(highestROI?.ROI) }">
+                    {{ highestROI?.ROI }}%
+                </div>
+                <v-card-actions :style="{ color: getColor(highestROI?.ROI) }">{{ highestROI?.stock_name }} {{ highestROI?.stock_code }}</v-card-actions>
+            </v-card>
         </v-row>
-        <v-row>
-            <v-card>
+        <v-row class="d-flex justify-space-between">
+            <v-card style="width: 30%">
                 <v-card-title>Holding Category</v-card-title>
                 <holding-category-pie-chart :chartdata="chartData" :options="chartOptions" />
+            </v-card>
+            <v-card style="width: 68%">
+                <v-card-title>Holdings</v-card-title>
+                <stock-holdings />
             </v-card>
         </v-row>
     </div>
@@ -56,15 +86,20 @@
 <script setup>
     import { onMounted, ref } from 'vue'
     import { API } from '@/utils/api'
-    import HoldingCategoryPieChart from '../components/HoldingCategoryPieChart.vue'
+    import HoldingCategoryPieChart from '@/components/HoldingCategoryPieChart.vue'
+    import StockHoldings from '@/pages/StockHoldings.vue';
 
     onMounted(() => {
         getTaiexIndex()
         getTpexIndex()
+        getHighestProfit()
+        getHighestROI()
     })
 
     const taiexIndex = ref()
     const tpexIndex = ref()
+    const highestProfit = ref()
+    const highestROI = ref()
     const chartData = ref([''])
     const chartOptions = ref()
 
@@ -95,10 +130,22 @@
             console.log(error)
         }
     }
-</script>
 
-<style scoped>
-    .v-card {
-        margin: 10px 10px;
+    async function getHighestProfit() {
+        try {
+            const response = await API('get', `/stock/highest-profit`)
+            highestProfit.value = response
+        } catch (error) {
+            console.log(error)
+        }
     }
-</style>
+
+    async function getHighestROI() {
+        try {
+            const response = await API('get', `/stock/highest-roi`)
+            highestROI.value = response
+        } catch (error) {
+            console.log(error)
+        }
+    }
+</script>

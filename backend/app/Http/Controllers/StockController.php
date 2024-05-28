@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Stock;
-use App\Models\StockDaily;
 use App\Repositories\StockRepository;
+use App\Repositories\TransactionRepository;
 use App\Service\FinMindService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,11 +14,13 @@ class StockController extends Controller
 {
     protected $finMindService;
     protected $stockRepository;
+    protected $transactionRepository;
 
-    public function __construct(FinMindService $finMindService, StockRepository $stockRepository)
+    public function __construct(FinMindService $finMindService, StockRepository $stockRepository, TransactionRepository $transactionRepository)
     {
         $this->finMindService = $finMindService;
         $this->stockRepository = $stockRepository;
+        $this->transactionRepository = $transactionRepository;
     }
 
     public function index(): Response
@@ -69,5 +71,42 @@ class StockController extends Controller
         }
 
         return $this->createApiResponse($prices[0]);
+    }
+
+    public function getHighestProfit(): Response
+    {
+        $stocks = $this->transactionRepository->getHoldingsByUserId(auth()->user()->id);
+
+        $highestProfit = null;
+        $highestProfitStock = null;
+        foreach ($stocks as $stock) {
+            $stock['profit'] = $stock['stock_current_price'] * $stock['quantity'] - $stock['total'];
+
+            if (!$highestProfit || $stock['profit'] > $highestProfit) {
+                $highestProfit = $stock['profit'];
+                $highestProfitStock = $stock;
+            }
+        }
+
+        return $this->createApiResponse($highestProfitStock);
+    }
+
+    public function getHighestROI(): Response
+    {
+        $stocks = $this->transactionRepository->getHoldingsByUserId(auth()->user()->id);
+
+        $highestROI = null;
+        $highestROIStock = null;
+        foreach ($stocks as $stock) {
+            $profit = $stock['stock_current_price'] * $stock['quantity'] - $stock['total'];
+            $stock['ROI'] = number_format($profit / $stock['total'], 2);
+
+            if (!$highestROI || $stock['ROI'] > $highestROI) {
+                $highestROI = $stock['ROI'];
+                $highestROIStock = $stock;
+            }
+        }
+
+        return $this->createApiResponse($highestROIStock);
     }
 }
