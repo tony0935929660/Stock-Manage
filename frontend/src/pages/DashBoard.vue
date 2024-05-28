@@ -134,7 +134,11 @@
     async function getHighestProfit() {
         try {
             const response = await API('get', `/stock/highest-profit`)
-            highestProfit.value = response
+            if (response) {
+                highestProfit.value = response
+            } else {
+                highestProfit.value = {'profit': 0}
+            }
         } catch (error) {
             console.log(error)
         }
@@ -143,7 +147,11 @@
     async function getHighestROI() {
         try {
             const response = await API('get', `/stock/highest-roi`)
-            highestROI.value = response
+            if (response) {
+                highestROI.value = response
+            } else {
+                highestROI.value = {'ROI': 0}
+            }
         } catch (error) {
             console.log(error)
         }
