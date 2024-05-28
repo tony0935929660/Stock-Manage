@@ -12,8 +12,8 @@
 </template>
 
 <script setup>
-    import { onMounted, ref } from 'vue';
-    import { API } from '@/utils/api';
+    import { onMounted, ref } from 'vue'
+    import { API } from '@/utils/api'
 
     onMounted(() => {
         getList()

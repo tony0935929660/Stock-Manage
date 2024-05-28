@@ -7,6 +7,7 @@
                 :type="showPassword ? 'text' : 'password'"
                 :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
                 @click:append-inner="showPassword = !showPassword" @keyup.enter="login"/>
+            <v-btn size="x-small" variant="text" @click="loginAsGuest">Login in as guest</v-btn>
             <v-card-actions class="d-flex justify-end">
                 <v-btn size="large" @click="login">Login</v-btn>
             </v-card-actions>
@@ -49,5 +50,11 @@
         } catch (error) {
             console.log(error)
         }
+    }
+
+    function loginAsGuest() {
+        form.value.email = 'guest@gmail.com'
+        form.value.password = '000000'
+        login()
     }
 </script>
