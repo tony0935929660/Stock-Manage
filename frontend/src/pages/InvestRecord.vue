@@ -19,6 +19,9 @@
             <v-card-subtitle>{{ form.stock?.code }}  {{ form.stock?.industry_category }}</v-card-subtitle>
             <v-data-table class="mt-10" :headers="columns" :items="data" />
         </v-card>
+        <v-snackbar v-model="snackbarMessage" timeout="3000" color="red">
+            {{ snackbarMessage }}
+        </v-snackbar>
     </v-row>
 </template>
 
@@ -36,6 +39,7 @@
     const form = ref({})
     const isBuy = ref(true)
     const data = ref([])
+    const snackbarMessage = ref(null)
     const options = ref({
         'stock': []
     });
@@ -121,6 +125,7 @@
             router.push('/')
         } catch (error) {
             console.log(error)
+            snackbarMessage.value = error?.response?.data?.reason
         }
     }
 
