@@ -18,6 +18,8 @@ class StockController extends Controller
 
     public function __construct(FinMindService $finMindService, StockRepository $stockRepository, TransactionRepository $transactionRepository)
     {
+        parent::__construct();
+        
         $this->finMindService = $finMindService;
         $this->stockRepository = $stockRepository;
         $this->transactionRepository = $transactionRepository;

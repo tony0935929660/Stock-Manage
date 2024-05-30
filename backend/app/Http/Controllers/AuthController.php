@@ -8,14 +8,21 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use App\Service\StockService;
+use App\Service\SystemPreferenceService;
 
 class AuthController extends Controller
 {
     protected $stockService;
+    
+    protected $systemPreferenceService;
 
-    public function __construct(StockService $stockService)
+    public function __construct(StockService $stockService, SystemPreferenceService $systemPreferenceService)
     {
+        parent::__construct();
+
         $this->stockService = $stockService;
+
+        $this->systemPreferenceService = $systemPreferenceService;
     }
 
     public function login(Request $request): Response
@@ -54,6 +61,8 @@ class AuthController extends Controller
             $validator->validated(),
             ['password' => bcrypt($request->password)]
         ));
+
+        $this->systemPreferenceService->createDefaultSystemPreferences($user->id);
 
         return $this->createApiResponse([
             'message' => 'User successfully registered',

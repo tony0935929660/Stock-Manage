@@ -16,7 +16,7 @@ class CreateSystemPreferencesTable extends Migration
         Schema::create('system_preferences', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('value');
             $table->boolean('is_frontend_cached');
             $table->string('created_by');

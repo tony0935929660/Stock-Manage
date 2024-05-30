@@ -16,6 +16,8 @@ class TransactionController extends Controller
 
     public function __construct(TransactionRepository $transactionRepository)
     {
+        parent::__construct();
+        
         $this->transactionRepository = $transactionRepository;
     }
     

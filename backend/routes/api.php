@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SystemPreferenceController;
 use App\Http\Controllers\TransactionController;
 
 /*
@@ -35,6 +36,8 @@ Route::get('/transaction/history', [TransactionController::class, 'historyList']
 Route::get('/transaction/holding', [TransactionController::class, 'holdingList']);
 
 Route::get('/chart/pie/holding-category', [TransactionController::class, 'holdingCategoryPieChartData']);
+
+Route::get('/system-preference', [SystemPreferenceController::class, 'list']);
 
 Route::group([
     'prefix' => 'auth'
