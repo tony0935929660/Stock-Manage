@@ -14,7 +14,12 @@ class SystemPreference extends Model
         'name',
         'value',
         'is_frontend_cached',
+        'options',
         'created_by',
         'updated_by'
+    ];
+
+    protected $casts = [
+        'options' => 'array',
     ];
 }

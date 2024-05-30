@@ -26,7 +26,7 @@
         }
     ]);
 
-    const getList = async () => {
+    async function getList() {
         data.value = await API('get', '/transaction/holding');
     }
 </script>

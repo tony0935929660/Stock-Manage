@@ -9,7 +9,8 @@ const routes = [
     { path: '/record', name: 'record', component: () => import('@/pages/InvestRecord') },
     { path: '/holdings', name: 'holdings', component: () => import('@/pages/StockHoldings') },
     { path: '/history', name: 'history', component: () => import('@/pages/InvestHistory') },
-    { path: '/system-setup', name:'system-setup', component: () => import('@/pages/SystemSetup') }
+    { path: '/system-setup', name:'system-setup', component: () => import('@/pages/SystemSetup/list') },
+    { path: '/system-setup/:id', name:'system-setup-detail', component: () => import('@/pages/SystemSetup/detail') }
 ];
 
 const router = createRouter({

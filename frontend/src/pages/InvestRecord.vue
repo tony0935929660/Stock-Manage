@@ -10,7 +10,7 @@
                 <v-radio label="Buy" :value="true" />
                 <v-radio label="Sell" :value="false" />
             </v-radio-group>
-            <v-card-actions>
+            <v-card-actions class="d-flex justify-end">
                 <v-btn size="large" variant="tonal" @click="submit">Submit</v-btn>
             </v-card-actions>
         </v-card>

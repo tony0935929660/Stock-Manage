@@ -16,6 +16,10 @@ class SystemPreferenceService
             self::SYSTEM_THEME => [
                 'value' => 'light',
                 'is_frontend_cached' => true,
+                'options' => [
+                    'dark',
+                    'light'
+                ]
             ]
         ];
     }
@@ -28,6 +32,7 @@ class SystemPreferenceService
                 'name' => $key,
                 'value' => $value['value'],
                 'is_frontend_cached' => $value['is_frontend_cached'],
+                'options' => $value['options'],
                 'created_by' => 'System-Default',
                 'updated_by' => 'System-Default'
             ]);

@@ -21,10 +21,22 @@
     import { useRouter } from 'vue-router'
     import { useStore } from 'vuex'
 
-    const store = useStore();
-    const router = useRouter();
-    const form = ref({});
-    const showPassword = ref(false);
+    const store = useStore()
+    const router = useRouter()
+    const form = ref({})
+    const showPassword = ref(false)
+
+    async function getSystemPreferences() {
+        try {
+            console.log('fetch system preference...')
+            const systemPreferences = await API('get', '/system-preference')
+            for (const preference of systemPreferences) {
+                store.dispatch("setSystemPreference", preference)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     async function refreshToken() {
         try {
@@ -42,8 +54,8 @@
             console.log('logging...')
             const response = await API('post', '/auth/login', form.value)
             store.dispatch("updateToken", response)
+            await getSystemPreferences()
             router.push('/')
-            
             if (store.getters.renewTokenTime) {
                 setTimeout(refreshToken, store.getters.renewTokenTime)
             }

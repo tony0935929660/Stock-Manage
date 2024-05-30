@@ -38,6 +38,8 @@ Route::get('/transaction/holding', [TransactionController::class, 'holdingList']
 Route::get('/chart/pie/holding-category', [TransactionController::class, 'holdingCategoryPieChartData']);
 
 Route::get('/system-preference', [SystemPreferenceController::class, 'list']);
+Route::get('/system-preference/{systemPreference}', [SystemPreferenceController::class, 'index']);
+Route::put('/system-preference/{systemPreference}', [SystemPreferenceController::class, 'update']);
 
 Route::group([
     'prefix' => 'auth'

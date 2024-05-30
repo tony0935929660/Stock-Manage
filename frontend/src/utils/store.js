@@ -4,7 +4,8 @@ export default createStore({
     state: {
         token: null,
         user: null,
-        tokenExpiresIn: null
+        tokenExpiresIn: null,
+        systemPreferences: {}
     },
     mutations: {
         setToken(state, token) {
@@ -15,6 +16,9 @@ export default createStore({
         },
         setTokenExpiresIn(state, time) {
             state.tokenExpiresIn = time;
+        },
+        setSystemPreference(state, systemPreference) {
+            state.systemPreferences[systemPreference['name']] = systemPreference['value'];
         }
     },
     actions: {
@@ -22,6 +26,9 @@ export default createStore({
             store.commit('setToken', response.access_token);
             store.commit('setUser', response.user);
             store.commit('setTokenExpiresIn', response.expires_in);
+        },
+        setSystemPreference(store, response) {
+            store.commit('setSystemPreference', response);
         }
     },
     getters: {
@@ -36,6 +43,9 @@ export default createStore({
                 return null;
             }
             return (state.tokenExpiresIn - 60) * 1000;
+        },
+        systemPreferences (state) {
+            return state.systemPreferences;
         }
     }
 })
