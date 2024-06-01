@@ -2,7 +2,7 @@
     <v-row class="d-flex justify-space-between">
         <v-card class="px-4 py-5" style="width: 30%; height: 40%">
             <v-card-title>Transaction Record</v-card-title>
-            <v-autocomplete label="Stock" v-model="form.stock" :items="options.stock" item-title="name" return-object/>
+            <v-autocomplete label="Stock" v-model="form.stock" :items="options.stock" item-title="title" return-object/>
             <v-date-input label="Date" v-model="form.date" prepend-icon="" />
             <v-divider class="mb-5" />
             <v-radio-group v-model="isBuy" inline>
@@ -117,13 +117,20 @@
         }
         form.value.stock_id = newValue.id
         data.value = []
-        getInfo(newValue.id)
+        getInfo()
     })
 
-    async function getInfo(id) {
+    watch(() => form.value.date, (newValue) => {
+        if (!newValue) {
+            return
+        }
+        getInfo()
+    })
+
+    async function getInfo() {
         try {
-            const monthAgo = moment().subtract(1, 'month').format('YYYY-MM-DD')
-            const response = await API('get', `/stock/${id}/info`, {'start_date': monthAgo})
+            const date = form.value.date ? moment(form.value.date).format('YYYY-MM-DD') : moment().subtract(1, 'month').format('YYYY-MM-DD')
+            const response = await API('get', `/stock/${form.value.stock.id}/info`, {'start_date': date})
             data.value = response
         } catch (error) {
             console.log(error)
@@ -132,8 +139,11 @@
 
     async function getStockList() {
         try {
-            const response = await API('get', '/stock')
-            options.value.stock = response
+            const stocks = await API('get', '/stock')
+            for (var stock of stocks) {
+                stock.title = `${stock.name} (${stock.code})`
+                options.value.stock.push(stock)
+            }
         } catch (error) {
             console.log(error)
         }
