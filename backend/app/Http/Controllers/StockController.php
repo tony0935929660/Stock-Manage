@@ -48,15 +48,11 @@ class StockController extends Controller
         $stock = $this->stockRepository->findByCode('TAIEX');
 
         $prices = $this->finMindService->getStockPriceByDateRange(
-            $stock->code, 
-            Carbon::now()->format('Y-m-d')
+            $stock->code,
+            Carbon::now()->subDays(7)->format('Y-m-d')
         );
 
-        if (!$prices) {
-            return $this->createApiResponse();
-        }
-
-        return $this->createApiResponse($prices[0]);
+        return $this->createApiResponse(end($prices));
     }
 
     public function getTpexIndex(): Response
@@ -64,15 +60,11 @@ class StockController extends Controller
         $stock = $this->stockRepository->findByCode('TPEx');
 
         $prices = $this->finMindService->getStockPriceByDateRange(
-            $stock->code, 
-            Carbon::now()->format('Y-m-d')
+            $stock->code,
+            Carbon::now()->subDays(7)->format('Y-m-d')
         );
 
-        if (!$prices) {
-            return $this->createApiResponse();
-        }
-
-        return $this->createApiResponse($prices[0]);
+        return $this->createApiResponse(end($prices));
     }
 
     public function getHighestProfit(): Response

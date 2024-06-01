@@ -7,7 +7,7 @@
                     class="d-flex justify-center mx-10" 
                     style="font-size: 40px;"
                     :style="{ color: getColor(taiexIndex?.spread) }">
-                    {{ taiexIndex?.close }}
+                    {{ taiexIndex?.close.toLocaleString() }}
                 </div>
                 <v-card-actions
                     class="d-flex justify-space-between"
@@ -28,7 +28,7 @@
                     class="d-flex justify-center mx-10" 
                     style="font-size: 40px;"
                     :style="{ color: getColor(tpexIndex?.spread) }">
-                    {{ tpexIndex?.close }}
+                    {{ tpexIndex?.close.toLocaleString() }}
                 </div>
                 <v-card-actions
                     class="d-flex justify-space-between"
@@ -52,7 +52,7 @@
                     class="d-flex justify-center mx-10" 
                     style="font-size: 40px;"
                     :style="{ color: getColor(highestProfit?.profit) }">
-                    ${{ highestProfit?.profit }}
+                    ${{ highestProfit?.profit.toLocaleString() }}
                 </div>
                 <v-card-actions :style="{ color: getColor(highestROI?.ROI) }">{{ highestProfit?.stock_name }} {{ highestProfit?.stock_code }}</v-card-actions>
             </v-card>

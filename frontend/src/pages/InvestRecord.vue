@@ -1,20 +1,29 @@
 <template>
     <v-row class="d-flex justify-space-between">
-        <v-card class="px-4 py-5" style="width: 28%; height: 40%">
-            <v-card-title>Record</v-card-title>
-            <v-date-input label="Date" v-model="form.date" prepend-icon="" />
+        <v-card class="px-4 py-5" style="width: 30%; height: 40%">
+            <v-card-title>Transaction Record</v-card-title>
             <v-autocomplete label="Stock" v-model="form.stock" :items="options.stock" item-title="name" return-object/>
-            <v-text-field label="Price" v-model="form.price" />
-            <v-text-field label="Quantity" v-model="form.quantity" />
+            <v-date-input label="Date" v-model="form.date" prepend-icon="" />
+            <v-divider class="mb-5" />
             <v-radio-group v-model="isBuy" inline>
+                <v-label class="mr-5">Action:</v-label>
                 <v-radio label="Buy" :value="true" />
                 <v-radio label="Sell" :value="false" />
             </v-radio-group>
-            <v-card-actions class="d-flex justify-end">
+            <v-radio-group v-model="isBoardLot" inline>
+                <v-label class="mr-5">Type:</v-label>
+                <v-radio label="Board Lot" :value="true" />
+                <v-radio label="Odd Lot" :value="false" />
+            </v-radio-group>
+            <v-text-field v-if="isBoardLot" label="Price (Per Unit)" v-model="form.price" />
+            <v-text-field v-else label="Price (Per Share)" v-model="form.price" />
+            <v-text-field label="Quantity" v-model="form.quantity_of_unit" />
+            <v-card-actions class="d-flex justify-space-between">
+                <v-label>Total: {{ total }}</v-label>
                 <v-btn size="large" variant="tonal" @click="submit">Submit</v-btn>
             </v-card-actions>
         </v-card>
-        <v-card v-if="data.length" class="px-4 py-5" style="width: 70%">
+        <v-card v-if="data.length" class="px-4 py-5" style="width: 68%">
             <v-card-title>{{ form.stock?.name }}</v-card-title>
             <v-card-subtitle>{{ form.stock?.code }}  {{ form.stock?.industry_category }}</v-card-subtitle>
             <v-data-table class="mt-10" :headers="columns" :items="data" />
@@ -26,7 +35,7 @@
 </template>
 
 <script setup>
-    import { onMounted, ref, watch } from 'vue'
+    import { computed, onMounted, ref, watch } from 'vue'
     import { API } from '@/utils/api'
     import { useRouter } from "vue-router"
     import moment from 'moment'
@@ -36,8 +45,12 @@
     })
 
     const router = useRouter()
-    const form = ref({})
+    const form = ref({
+        quantity_of_unit: 0,
+        price: 0
+    })
     const isBuy = ref(true)
+    const isBoardLot = ref(true)
     const data = ref([])
     const snackbarMessage = ref(null)
     const options = ref({
@@ -81,6 +94,22 @@
             'title': '交易筆數'
         },
     ])
+
+    const total = computed (() => {
+        if (!form.value.price || !form.value.quantity) {
+            return 0;
+        }
+
+        return (form.value.price * form.value.quantity).toLocaleString()
+    })
+
+    watch(() => form.value.quantity_of_unit, (newValue) => {
+        if (isBoardLot.value) {
+            form.value.quantity = newValue * 1000
+        } else {
+            form.value.quantity = newValue
+        }
+    })
 
     watch(() => form.value.stock, (newValue) => {
         if (!newValue) {
