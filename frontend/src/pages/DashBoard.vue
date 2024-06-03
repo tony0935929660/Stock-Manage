@@ -54,7 +54,7 @@
                     :style="{ color: getColor(highestProfit?.profit) }">
                     ${{ highestProfit?.profit.toLocaleString() }}
                 </div>
-                <v-card-actions :style="{ color: getColor(highestROI?.ROI) }">{{ highestProfit?.stock_name }} {{ highestProfit?.stock_code }}</v-card-actions>
+                <v-card-actions :style="{ color: getColor(highestProfit?.ROI) }">{{ highestProfit?.stock_name }} {{ highestProfit?.stock_code }}</v-card-actions>
             </v-card>
             <v-card :loading="!highestROI" style="width: 24%">
                 <v-card-title>
@@ -72,7 +72,7 @@
         </v-row>
         <v-row class="d-flex justify-space-between">
             <v-card style="width: 30%">
-                <v-card-title>Holding Category</v-card-title>
+                <v-card-title>Holding Industries</v-card-title>
                 <holding-category-pie-chart :chartdata="chartData" :options="chartOptions" />
             </v-card>
             <v-card style="width: 68%">

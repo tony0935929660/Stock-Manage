@@ -54,6 +54,7 @@ class TransactionRepository
             ->leftJoin('stocks', 'stocks.id', '=', 'transactions.stock_id')
             ->where('user_id', $userId)
             ->groupBy('stock_id')
+            ->having('total', '>', '0')
             ->get();
     }
 }
