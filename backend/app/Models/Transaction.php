@@ -19,8 +19,6 @@ class Transaction extends Model
         'quantity',
         'date',
         'price',
-        'fee_discount',
-        'tax',
         'total',
         'remaining',
         'created_by',
@@ -30,6 +28,8 @@ class Transaction extends Model
     protected $casts = [
         'date' => 'datetime:Y-m-d',
     ];
+
+    protected $dates = ['date'];
 
     public function user()
     {

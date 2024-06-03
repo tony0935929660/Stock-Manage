@@ -40,19 +40,12 @@ class TransactionController extends Controller
                 return $this->createValidatorErrorApiResponse($validator);
             }
 
-            // TODO auto convert datetime to date
-            $params['date'] = date('Y-m-d', strtotime($params['date']));
-
-            // TODO calculate function can define in model
-            $discount = 0.28;
-            $fee = $params['price'] * $params['quantity'] * 0.1425 * $discount;
-            $total = $params['price'] * $params['quantity'] + $fee;
+            $fee = $this->stockService->calculateFee($params['price'], $params['quantity']);
 
             $params = array_merge($params, [
                 "user_id" => auth()->user()->id,
                 "is_buy" => true,
-                "fee_discount" => $discount,
-                "total" => $total,
+                "total" => $params['price'] * $params['quantity'] + $fee,
                 "remaining" => $params['quantity']
             ]);
             $transaction = Transaction::create($params);
@@ -89,20 +82,13 @@ class TransactionController extends Controller
 
             DB::beginTransaction();
 
-            // TODO auto convert datetime to date
-            $params['date'] = date('Y-m-d', strtotime($params['date']));
-
-            // TODO calculate function can define in model
-            $discount = 0.28;
-            $fee = $params['price'] * $params['quantity'] * 0.1425 * $discount;
-            $tax = $params['price'] * $params['quantity'] * 0.3;
+            $fee = $this->stockService->calculateFee($params['price'], $params['quantity']);
+            $tax = $this->stockService->calculateTax($params['price'], $params['quantity']);
             $total = $params['price'] * $params['quantity'] + $fee + $tax;
 
             $params = array_merge($params, [
                 "user_id" => auth()->user()->id,
                 "is_buy" => false,
-                "fee_discount" => $discount,
-                "tax" => $tax,
                 "total" => $total
             ]);
             $sellTransaction = Transaction::create($params);

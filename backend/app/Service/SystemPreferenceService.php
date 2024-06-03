@@ -9,6 +9,7 @@ class SystemPreferenceService
     protected array $prefrenceValues;
 
     const SYSTEM_THEME = 'System.Theme';
+    const BROKERAGE_FIRM = 'BrokerageFirm';
 
     public function __construct()
     {
@@ -17,8 +18,15 @@ class SystemPreferenceService
                 'value' => 'light',
                 'is_frontend_cached' => true,
                 'options' => [
-                    'dark',
-                    'light'
+                    ['value' => 'dark', 'title' => 'Dark'],
+                    ['value' => 'light', 'title' => 'Light']
+                ]
+            ],
+            self::BROKERAGE_FIRM => [
+                'value' => 'CUBE',
+                'is_frontend_cached' => true,
+                'options' => [
+                    ['value' => 0.28, 'title' => '國泰世華']
                 ]
             ]
         ];

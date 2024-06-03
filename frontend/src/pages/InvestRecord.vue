@@ -15,9 +15,9 @@
                 <v-radio label="Board Lot" :value="true" />
                 <v-radio label="Odd Lot" :value="false" />
             </v-radio-group>
-            <v-text-field v-if="isBoardLot" label="Price (Per Unit)" v-model="form.price" />
-            <v-text-field v-else label="Price (Per Share)" v-model="form.price" />
-            <v-text-field label="Quantity" v-model="form.quantity_of_unit" />
+            <v-number-input v-if="isBoardLot" label="Price (Per Unit)" v-model="form.price" />
+            <v-number-input v-else label="Price (Per Share)" v-model="form.price" />
+            <v-number-input label="Quantity" v-model="form.quantity_of_unit" />
             <v-card-actions class="d-flex justify-space-between">
                 <v-label>Total: {{ total }}</v-label>
                 <v-btn size="large" variant="tonal" @click="submit">Submit</v-btn>

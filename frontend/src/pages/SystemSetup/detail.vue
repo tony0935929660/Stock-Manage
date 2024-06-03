@@ -2,7 +2,7 @@
     <v-card style="width: 50%">
         <v-card-title>System Preference</v-card-title>
         <v-text-field label="Name" v-model="form.name" disabled />
-        <v-autocomplete label="Value" v-model="form.value" :items="form.options"/>
+        <v-autocomplete label="Value" v-model="form.value" :items="form.options" item-title="title" item-value="value"/>
         <v-card-actions class="d-flex justify-end">
             <v-btn size="large" variant="tonal" @click="router.back">Back</v-btn>
             <v-btn size="large" variant="tonal" @click="submit">Submit</v-btn>
