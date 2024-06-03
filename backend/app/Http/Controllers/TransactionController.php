@@ -140,7 +140,12 @@ class TransactionController extends Controller
         $stocks = $this->transactionRepository->getHoldingsByUserId(auth()->user()->id);
 
         foreach ($stocks as $stock) {
-            $stock['profit'] = $this->stockService->calculateProfit($stock['total'], $stock['stock_current_price'], $stock['quantity'], $stock['stock_industry'] == Stock::INDUSTRY_CATEGORY_ETF);
+            $stock['profit'] = $this->stockService->calculateProfit(
+                $stock['total'], 
+                $stock['stock_current_price'], 
+                $stock['quantity'], 
+                $stock['stock_industry'] == Stock::INDUSTRY_CATEGORY_ETF
+            );
         }
 
         return $this->createApiResponse($stocks);

@@ -35,11 +35,14 @@ class TransactionRepository
     public function getHoldingCategoriesByUserId(string $userId): Collection
     {
         return $this->model
-            ->selectRaw('stocks.industry_category, SUM(CASE WHEN is_buy = 1 THEN total ELSE -total END) AS total')
+            ->selectRaw('stocks.industry_category, 
+                SUM(CASE WHEN is_buy = 1 THEN total ELSE -total END) AS total,
+                SUM(CASE WHEN is_buy = 1 THEN quantity ELSE -quantity END) AS quantity
+                ')
             ->leftJoin('stocks', 'stocks.id', '=', 'transactions.stock_id')
             ->where('user_id', $userId)
             ->groupBy('stocks.industry_category')
-            ->having('total', '>', '0')
+            ->having('quantity', '>', '0')
             ->get();
     }
 
@@ -56,7 +59,7 @@ class TransactionRepository
             ->leftJoin('stocks', 'stocks.id', '=', 'transactions.stock_id')
             ->where('user_id', $userId)
             ->groupBy('stock_id')
-            ->having('total', '>', '0')
+            ->having('quantity', '>', '0')
             ->get();
     }
 }

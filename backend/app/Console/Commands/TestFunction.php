@@ -46,7 +46,7 @@ class TestFunction extends Command
      */
     public function handle()
     {
-        $data = $this->stockService->calculateFee(150, 1000);
+        $data = $this->stockService->calculateProfit(16006, 169.55, 100, true);
         
         dump($data);
 

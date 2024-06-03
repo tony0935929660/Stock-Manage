@@ -77,7 +77,12 @@ class StockController extends Controller
         $highestProfit = null;
         $highestProfitStock = null;
         foreach ($stocks as $stock) {
-            $stock['profit'] = $this->stockService->calculateProfit($stock['total'], $stock['stock_current_price'], $stock['quantity'], $stock['stock_industry'] == Stock::INDUSTRY_CATEGORY_ETF);
+            $stock['profit'] = $this->stockService->calculateProfit(
+                $stock['total'], 
+                $stock['stock_current_price'], 
+                $stock['quantity'], 
+                $stock['stock_industry'] == Stock::INDUSTRY_CATEGORY_ETF
+            );
             
             if (!$highestProfit || $stock['profit'] > $highestProfit) {
                 $highestProfit = $stock['profit'];
