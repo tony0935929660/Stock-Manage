@@ -65,7 +65,7 @@
                     class="d-flex justify-center mx-10" 
                     style="font-size: 40px;"
                     :style="{ color: getColor(highestROI?.ROI) }">
-                    {{ highestROI?.ROI }}%
+                    {{ (highestROI?.ROI * 100).toFixed(2) }}%
                 </div>
                 <v-card-actions :style="{ color: getColor(highestROI?.ROI) }">{{ highestROI?.stock_name }} {{ highestROI?.stock_code }}</v-card-actions>
             </v-card>

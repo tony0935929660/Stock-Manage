@@ -7,13 +7,13 @@
             {{ item.total }}
         </template>
         <template v-slot:item.profit="{ item }">
-            <p :style="{color: getColor(item.quantity * item.stock_current_price - item.total)}">
-                {{ (item.quantity * item.stock_current_price - item.total).toLocaleString() }}
+            <p :style="{color: getColor(item.profit)}">
+                {{ item.profit }}
             </p>
         </template>
         <template v-slot:item.roi="{ item }">
-            <p :style="{color: getColor(item.quantity * item.stock_current_price - item.total)}">
-                {{ ((item.quantity * item.stock_current_price - item.total) / item.total).toFixed(2) }}%
+            <p :style="{color: getColor(item.profit)}">
+                {{ ((item.profit / item.total)*100).toFixed(2) }}%
             </p>
         </template>
     </v-data-table>
@@ -47,11 +47,11 @@
         },
         {
             "value": "profit",
-            "title": "Profit"
+            "title": "Estimated Profit"
         },
         {
             "value": "roi",
-            "title": "ROI"
+            "title": "Estimated ROI"
         }
     ]);
 
@@ -60,8 +60,6 @@
             return 'red'
         } else if (total < 0) {
             return 'green'
-        } else {
-            return 'white'
         }
     }
 

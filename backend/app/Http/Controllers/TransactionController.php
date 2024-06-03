@@ -82,8 +82,10 @@ class TransactionController extends Controller
 
             DB::beginTransaction();
 
+            $stock = Stock::find($params['stock_id']);
+
             $fee = $this->stockService->calculateFee($params['price'], $params['quantity']);
-            $tax = $this->stockService->calculateTax($params['price'], $params['quantity']);
+            $tax = $this->stockService->calculateTax($params['price'], $params['quantity'], $stock->industry_category == Stock::INDUSTRY_CATEGORY_ETF);
             $total = $params['price'] * $params['quantity'] + $fee + $tax;
 
             $params = array_merge($params, [
@@ -135,9 +137,13 @@ class TransactionController extends Controller
 
     public function holdingList(): Response
     {
-        $holdings = $this->transactionRepository->getHoldingsByUserId(auth()->user()->id);
+        $stocks = $this->transactionRepository->getHoldingsByUserId(auth()->user()->id);
 
-        return $this->createApiResponse($holdings);
+        foreach ($stocks as $stock) {
+            $stock['profit'] = $this->stockService->calculateProfit($stock['total'], $stock['stock_current_price'], $stock['quantity'], $stock['stock_industry'] == Stock::INDUSTRY_CATEGORY_ETF);
+        }
+
+        return $this->createApiResponse($stocks);
     }
 
     public function holdingCategoryPieChartData(): Response

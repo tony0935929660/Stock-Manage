@@ -16,9 +16,8 @@ class SystemPreferenceRepository
     public function getSystemPreferenceByName(string $name): string
     {
         return $this->model
-            ->select('value')
             ->where('user_id', auth()->user()->id)
             ->where('name', $name)
-            ->first();
+            ->value('value');
     }
 }

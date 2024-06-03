@@ -49,6 +49,7 @@ class TransactionRepository
             ->selectRaw('stock_id,
                 stocks.name as stock_name,
                 stocks.code as stock_code,
+                stocks.industry_category as stock_industry,
                 stocks.current_price as stock_current_price,
                 SUM(CASE WHEN is_buy = 1 THEN total ELSE -total END) as total, 
                 SUM(CASE WHEN is_buy = 1 THEN quantity ELSE -quantity END) AS quantity')

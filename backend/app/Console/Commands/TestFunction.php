@@ -4,13 +4,14 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Service\FinMindService;
+use App\Service\StockService;
 
 class TestFunction extends Command
 {
     /**
-     * @var FinMindService
+     * @var StockService
      */
-    protected $finMindService;
+    protected $stockService;
 
     /**
      * The name and signature of the console command.
@@ -31,11 +32,11 @@ class TestFunction extends Command
      *
      * @return void
      */
-    public function __construct(FinMindService $finMindService)
+    public function __construct(StockService $stockService)
     {
         parent::__construct();
 
-        $this->finMindService = $finMindService;
+        $this->stockService = $stockService;
     }
 
     /**
@@ -45,7 +46,7 @@ class TestFunction extends Command
      */
     public function handle()
     {
-        $data = $this->finMindService->getStockPriceByDate('2330', '2024-05-14');
+        $data = $this->stockService->calculateFee(150, 1000);
         
         dump($data);
 

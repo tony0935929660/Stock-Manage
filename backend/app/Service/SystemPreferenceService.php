@@ -23,7 +23,7 @@ class SystemPreferenceService
                 ]
             ],
             self::BROKERAGE_FIRM => [
-                'value' => 'CUBE',
+                'value' => 0.28,
                 'is_frontend_cached' => true,
                 'options' => [
                     ['value' => 0.28, 'title' => '國泰世華']

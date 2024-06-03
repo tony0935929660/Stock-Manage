@@ -10,6 +10,8 @@ class Stock extends Model
 {
     use HasFactory, CreatedUpdatedBy;
 
+    public const INDUSTRY_CATEGORY_ETF = 'ETF';
+
     protected $fillable = [
         'code',
         'name',
