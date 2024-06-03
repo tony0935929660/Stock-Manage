@@ -34,37 +34,37 @@ class StockController extends Controller
 
     public function getInfoByDateRange(Stock $stock, Request $request): Response
     {
-        $prices = $this->finMindService->getStockPriceByDateRange(
+        $infos = $this->finMindService->getStockInfoByDateRange(
             $stock->code, 
             $request->input('start_date'), 
             $request->input('end_date')
         );
 
-        return $this->createApiResponse($prices);
+        return $this->createApiResponse($infos);
     }
 
     public function getTaiexIndex(): Response
     {
         $stock = $this->stockRepository->findByCode('TAIEX');
 
-        $prices = $this->finMindService->getStockPriceByDateRange(
+        $infos = $this->finMindService->getStockInfoByDateRange(
             $stock->code,
             Carbon::now()->subDays(7)->format('Y-m-d')
         );
 
-        return $this->createApiResponse(end($prices));
+        return $this->createApiResponse(end($infos));
     }
 
     public function getTpexIndex(): Response
     {
         $stock = $this->stockRepository->findByCode('TPEx');
 
-        $prices = $this->finMindService->getStockPriceByDateRange(
+        $infos = $this->finMindService->getStockInfoByDateRange(
             $stock->code,
             Carbon::now()->subDays(7)->format('Y-m-d')
         );
 
-        return $this->createApiResponse(end($prices));
+        return $this->createApiResponse(end($infos));
     }
 
     public function getHighestProfit(): Response

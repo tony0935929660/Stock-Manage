@@ -2,9 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Stock;
-use App\Service\FinMindService;
-use Carbon\Carbon;
+use App\Repositories\StockRepository;
+use App\Service\StockService;
 use Illuminate\Console\Command;
 
 class UpdateStockCurrentPrice extends Command
@@ -24,20 +23,26 @@ class UpdateStockCurrentPrice extends Command
     protected $description = 'Update Stock Current Price EveryDay';
     
     /**
-     * @var FinMindService
+     * @var StockRepository
      */
-    protected $finMindService;
+    protected $stockRepository;
+
+    /**
+     * @var StockService
+     */
+    protected $stockService;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(FinMindService $finMindService)
+    public function __construct(StockRepository $stockRepository, StockService $stockService)
     {
         parent::__construct();
 
-        $this->finMindService = $finMindService;
+        $this->stockRepository = $stockRepository;
+        $this->stockService = $stockService;
     }
 
     /**
@@ -47,18 +52,10 @@ class UpdateStockCurrentPrice extends Command
      */
     public function handle()
     {
-        $stocks = Stock::get();
+        $stocks = $this->stockRepository->getAllHeldStock();
 
         foreach ($stocks as $stock) {
-            $prices = $this->finMindService->getStockPriceByDateRange($stock->code, Carbon::now()->format('Y-m-d'));
-
-            if (!count($prices)) {
-                continue;
-            }
-
-            $stock->update([
-                'current_price' => $prices[0]['close']
-            ]);
+            $this->stockService->updateCurrentPriceByStock($stock);
         }
 
         return 0;

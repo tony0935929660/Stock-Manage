@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
@@ -14,7 +15,14 @@ class FinMindService
         return $this->callApi('TaiwanStockInfo');
     }
 
-    public function getStockPriceByDateRange(string $stockCode, string $startDate, ?string $endDate = null): array
+    public function getNewestStockInfo(string $stockCode): array
+    {
+        $infos = $this->getStockInfoByDateRange($stockCode, Carbon::now()->subDays(5)->format('Y-m-d'));
+
+        return end($infos);
+    }
+
+    public function getStockInfoByDateRange(string $stockCode, string $startDate, ?string $endDate = null): array
     {
         return $this->callApi('TaiwanStockPrice', $stockCode, $startDate, $endDate);
     }

@@ -40,8 +40,6 @@ class AuthController extends Controller
             return $this->createUnauthorizeApiResponse();
         }
 
-        $this->stockService->updateCurrentPriceByUser(auth()->user()->id);
-
         return $this->createNewToken($token);
     }
 

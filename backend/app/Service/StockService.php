@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
+use App\Models\Stock;
 use App\Repositories\TransactionRepository;
-use Carbon\Carbon;
 
 class StockService
 {
@@ -23,15 +23,20 @@ class StockService
         $stocks = $this->transactionRepository->getHoldingsByUserId($userId);
 
         foreach ($stocks as $stock) {
-            $prices = $this->finMindService->getStockPriceByDateRange($stock['stock_code'], Carbon::now()->format('Y-m-d'));
-
-            if (!count($prices)) {
-                continue;
-            }
+            $stockInfo = $this->finMindService->getNewestStockInfo($stock['stock_code']);
 
             $stock->update([
-                'current_price' => $prices[0]['close']
+                'current_price' => $stockInfo['close']
             ]);
         }
+    }
+
+    public function updateCurrentPriceByStock(Stock $stock): void
+    {
+        $stockInfo = $this->finMindService->getNewestStockInfo($stock->code);
+
+        $stock->update([
+            'current_price' => $stockInfo['close']
+        ]);
     }
 }

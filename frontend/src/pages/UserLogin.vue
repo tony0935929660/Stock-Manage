@@ -7,9 +7,9 @@
                 :type="showPassword ? 'text' : 'password'"
                 :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
                 @click:append-inner="showPassword = !showPassword" @keyup.enter="login"/>
-            <v-btn size="x-small" variant="text" @click="loginAsGuest">Login in as guest</v-btn>
+            <v-btn :loading="isLoading" size="x-small" variant="text" @click="loginAsGuest">Login in as guest</v-btn>
             <v-card-actions class="d-flex justify-end">
-                <v-btn size="large" @click="login">Login</v-btn>
+                <v-btn :loading="isLoading" size="large" @click="login">Login</v-btn>
             </v-card-actions>
         </v-card>
     </div>
@@ -25,6 +25,7 @@
     const router = useRouter()
     const form = ref({})
     const showPassword = ref(false)
+    const isLoading = ref(false)
 
     async function getSystemPreferences() {
         try {
@@ -51,6 +52,7 @@
 
     async function login() {
         try {
+            isLoading.value = true
             console.log('logging...')
             const response = await API('post', '/auth/login', form.value)
             store.dispatch("updateToken", response)
@@ -61,6 +63,8 @@
             }
         } catch (error) {
             console.log(error)
+        } finally {
+            isLoading.value = false
         }
     }
 

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Stock;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 class StockRepository
@@ -25,5 +26,17 @@ class StockRepository
     {
         return $this->model
             ->where('code', $code)->first();
+    }
+
+    
+
+    public function getAllHeldStock(): Collection
+    {
+        return Stock::selectRaw('stocks.*, 
+                SUM(CASE WHEN transactions.is_buy = 1 THEN transactions.total ELSE -transactions.total END) as total')
+            ->leftJoin('transactions', 'stocks.id', '=', 'transactions.stock_id')
+            ->groupBy('stocks.id')
+            ->having('total', '>', 0)
+            ->get();
     }
 }

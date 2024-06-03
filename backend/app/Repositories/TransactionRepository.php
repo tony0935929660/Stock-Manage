@@ -45,7 +45,8 @@ class TransactionRepository
 
     public function getHoldingsByUserId(string $userId): Collection
     {
-        return Transaction::selectRaw('stock_id,
+        return $this->model
+            ->selectRaw('stock_id,
                 stocks.name as stock_name,
                 stocks.code as stock_code,
                 stocks.current_price as stock_current_price,
