@@ -54,7 +54,7 @@
                     :style="{ color: getColor(highestProfit?.profit) }">
                     ${{ highestProfit?.profit.toLocaleString() }}
                 </div>
-                <v-card-actions :style="{ color: getColor(highestProfit?.ROI) }">{{ highestProfit?.stock_name }} {{ highestProfit?.stock_code }}</v-card-actions>
+                <v-card-actions :style="{ color: getColor(highestProfit?.profit) }">{{ highestProfit?.stock_name }} {{ highestProfit?.stock_code }}</v-card-actions>
             </v-card>
             <v-card :loading="!highestROI" style="width: 24%">
                 <v-card-title>
@@ -87,7 +87,7 @@
     import { onMounted, ref } from 'vue'
     import { API } from '@/utils/api'
     import HoldingCategoryPieChart from '@/components/HoldingCategoryPieChart.vue'
-    import StockHoldings from '@/pages/StockHoldings.vue';
+    import StockHoldings from '@/components/StockHoldings.vue';
 
     onMounted(() => {
         getTaiexIndex()
