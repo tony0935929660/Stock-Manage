@@ -1,7 +1,7 @@
 <template>
     <v-data-table :headers="columns" :items="data">
         <template v-slot:item.current_price="{ item }">
-            {{ item.quantity * item.stock_current_price }}
+            {{ parseInt(item.quantity * item.stock_current_price) }}
         </template>
         <template v-slot:item.total="{ item }">
             {{ item.total }}

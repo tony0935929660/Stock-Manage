@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Repositories\StockRepository;
-use App\Service\StockService;
+use App\Service\FinMindService;
 use Illuminate\Console\Command;
 
 class UpdateStockCurrentPrice extends Command
@@ -28,21 +28,21 @@ class UpdateStockCurrentPrice extends Command
     protected $stockRepository;
 
     /**
-     * @var StockService
+     * @var FinMindService
      */
-    protected $stockService;
+    protected $finMindService;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(StockRepository $stockRepository, StockService $stockService)
+    public function __construct(StockRepository $stockRepository, FinMindService $finMindService)
     {
         parent::__construct();
 
         $this->stockRepository = $stockRepository;
-        $this->stockService = $stockService;
+        $this->finMindService = $finMindService;
     }
 
     /**
@@ -55,7 +55,12 @@ class UpdateStockCurrentPrice extends Command
         $stocks = $this->stockRepository->getAllHeldStock();
 
         foreach ($stocks as $stock) {
-            $this->stockService->updateCurrentPriceByStock($stock);
+            $stockInfo = $this->finMindService->getNewestStockInfo($stock->code);
+
+            $stock->update([
+                'current_price' => $stockInfo['close'],
+                'updated_by' => 'System-UpdateStockCurrentPrice'
+            ]);
         }
 
         return 0;
