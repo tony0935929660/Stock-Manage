@@ -53,6 +53,8 @@ class UpdateStockCurrentPrice extends Command
     public function handle()
     {
         $stocks = $this->stockRepository->getAllHeldStock();
+        $index = $this->stockRepository->getIndex();
+        $stocks->merge($index);
 
         foreach ($stocks as $stock) {
             $stockInfo = $this->finMindService->getNewestStockInfo($stock->code);

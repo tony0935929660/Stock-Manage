@@ -28,15 +28,21 @@ class StockRepository
             ->where('code', $code)->first();
     }
 
-    
-
     public function getAllHeldStock(): Collection
     {
-        return Stock::selectRaw('stocks.*, 
+        return $this->model
+            ->selectRaw('stocks.*, 
                 SUM(CASE WHEN transactions.is_buy = 1 THEN transactions.total ELSE -transactions.total END) as total')
             ->leftJoin('transactions', 'stocks.id', '=', 'transactions.stock_id')
             ->groupBy('stocks.id')
             ->having('total', '>', 0)
+            ->get();
+    }
+
+    public function getIndex(): Collection
+    {
+        return $this->model
+            ->whereNotIn('industry_category', Stock::$nonStockCategory)
             ->get();
     }
 }

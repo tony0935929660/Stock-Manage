@@ -10,6 +10,8 @@ class Stock extends Model
 {
     use HasFactory, CreatedUpdatedBy;
 
+    static $nonStockCategory = ['大盤', 'Index'];
+
     public const INDUSTRY_CATEGORY_ETF = 'ETF';
 
     protected $fillable = [
@@ -21,6 +23,4 @@ class Stock extends Model
         'created_by',
         'updated_by'
     ];
-
-    static $nonStockCategory = ['大盤', 'Index'];
 }
