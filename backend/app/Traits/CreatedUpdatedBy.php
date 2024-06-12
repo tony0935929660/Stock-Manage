@@ -12,17 +12,17 @@ trait CreatedUpdatedBy
             if ($model instanceof User) {
                 return;
             }
-            if (!$model->isDirty('created_by')) {
+            if (!$model->isDirty('created_by') && auth()->check()) {
                 $model->created_by = auth()->user()->id;
             }
-            if (!$model->isDirty('updated_by')) {
+            if (!$model->isDirty('updated_by') && auth()->check()) {
                 $model->updated_by = auth()->user()->id;
             }
         });
 
         // updating updated_by when model is updated
         static::updating(function ($model) {
-            if (!$model->isDirty('updated_by')) {
+            if (!$model->isDirty('updated_by') && auth()->check()) {
                 $model->updated_by = auth()->user()->id;
             }
         });
