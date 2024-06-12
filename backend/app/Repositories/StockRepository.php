@@ -25,7 +25,8 @@ class StockRepository
     public function findByCode(string $code): ?Stock
     {
         return $this->model
-            ->where('code', $code)->first();
+            ->where('code', $code)
+            ->first();
     }
 
     public function getAllHeldStock(): Collection

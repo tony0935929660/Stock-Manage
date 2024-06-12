@@ -48,10 +48,8 @@ class StockController extends Controller
 
     public function getTaiexIndex(): Response
     {
-        $stock = $this->stockRepository->findByCode('TAIEX');
-
         $infos = $this->finMindService->getStockInfoByDateRange(
-            $stock->code,
+            'TAIEX',
             Carbon::now()->subDays(7)->format('Y-m-d')
         );
 
@@ -60,10 +58,8 @@ class StockController extends Controller
 
     public function getTpexIndex(): Response
     {
-        $stock = $this->stockRepository->findByCode('TPEx');
-
         $infos = $this->finMindService->getStockInfoByDateRange(
-            $stock->code,
+            'TPEx',
             Carbon::now()->subDays(7)->format('Y-m-d')
         );
 
