@@ -42,7 +42,7 @@ class StockRepository
     public function getIndex(): Collection
     {
         return $this->model
-            ->whereNotIn('industry_category', Stock::$nonStockCategory)
+            ->whereIn('industry_category', Stock::$nonStockCategory)
             ->get();
     }
 }
