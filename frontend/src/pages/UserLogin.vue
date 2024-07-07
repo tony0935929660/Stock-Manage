@@ -7,7 +7,7 @@
                 :type="showPassword ? 'text' : 'password'"
                 :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
                 @click:append-inner="showPassword = !showPassword" @keyup.enter="login"/>
-            <v-btn size="x-small" variant="text" @click="loginAsGuest">Login in as guest</v-btn>
+            <v-btn size="x-small" variant="text" @click="loginAsGuest">Login as guest</v-btn>
             <v-card-actions class="d-flex justify-end">
                 <v-btn :loading="isLoading" size="large" @click="login">Login</v-btn>
             </v-card-actions>
